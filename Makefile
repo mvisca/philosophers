@@ -5,8 +5,7 @@ philo:
 		./philo_parse.c \
 		./philo_parse_error.c \
 		./philo_parse_utils.c \
-		./philo_split.c \
-		./philo_split_utils.c \
+		./philo_time.c \
 		./philo_debug.c \
 		-I. -o philo -g -fsanitize=address
 	@echo "Compiling..."

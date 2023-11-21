@@ -6,12 +6,12 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 09:56:44 by mvisca            #+#    #+#             */
-/*   Updated: 2023/10/29 14:58:08 by mvisca           ###   ########.fr       */
+/*   Updated: 2023/11/09 11:31:10 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
+/*
 int ft_isalpha(char c)
 {
     if ((c >= 'a' && c <= 'z') ||
@@ -41,3 +41,4 @@ int	ft_is_end(char *str, char c, int i)
 		return (1);
 	return (0);
 }
+*/
