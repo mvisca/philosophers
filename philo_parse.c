@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 09:12:19 by mvisca            #+#    #+#             */
-/*   Updated: 2023/11/21 19:42:13 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2023/11/21 20:20:36 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ int	gym_init(t_gym *gym, int ac, char **av)
 		return (command_args_error());
 	gym->philos = NULL;
 	gym->total_philos = ft_atoi(av[1]);
-	if (gym->total_philos < 2)
-		error_exit("Error: número insuficiente de filósofos", 5);
 	printf("philos number %d\n", gym->total_philos);
 	gym->forks = (pthread_mutex_t *)malloc \
 		(sizeof(pthread_mutex_t) * gym->total_philos);

@@ -6,7 +6,7 @@
 /*   By: mvisca-g <mvisca-g@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 18:01:02 by mvisca-g          #+#    #+#             */
-/*   Updated: 2023/11/21 19:04:26 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2023/11/21 20:32:04 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,15 @@ int			arr_len(char **tab);
 int			gym_forks_create(t_gym *gym);
 int			gym_philos_create(t_gym *gym);
 
+// destroy
+int			gym_forks_destroy(t_gym *gym);
+
 // parse
 int			gym_init(t_gym *gym, int ac, char **av);
 int			command_args_error(void);
 
 // open
 int			gym_open(t_gym *gym);	
-int			gym_thread_create(t_gym *gym);
-int			gym_thread_destroy(t_gym *gym);
 void		*gym_table(void *data);
 
 // time
