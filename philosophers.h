@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philosophers.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvisca-g <mvisca-g@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/21 18:01:02 by mvisca-g          #+#    #+#             */
+/*   Updated: 2023/11/21 19:04:26 by mvisca-g         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
@@ -68,6 +80,10 @@ int			clean_tab(char **tab);
 uint64_t	ft_ato64(char *ascii);
 int			ft_atoi(char *ascii);
 int			arr_len(char **tab);
+
+// creator
+int			gym_forks_create(t_gym *gym);
+int			gym_philos_create(t_gym *gym);
 
 // parse
 int			gym_init(t_gym *gym, int ac, char **av);

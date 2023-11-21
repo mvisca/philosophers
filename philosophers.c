@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philosophers.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvisca-g <mvisca-g@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/21 18:01:17 by mvisca-g          #+#    #+#             */
+/*   Updated: 2023/11/21 19:02:31 by mvisca-g         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philosophers.h"
 
 // Se crea el hilo y se ejecuta inmediatamente esta función
@@ -10,33 +22,6 @@ void	*gym_table(void *data)
 	return (0);
 }
 
-int	gym_thread_create(t_gym *gym)
-{
-	int				i;
-
-	i = 0;
-	while (i < gym->total_philos)
-	{
-		if (pthread_mutex_init(&gym->forks[i], NULL))
-			error_exit("Error: mutex creation", 18);
-
-		gym->philos[i]->philo_thread = (pthread_t *)malloc(sizeof(pthread_t));
-		if (!gym->philos[i]->philo_thread)
-			error_exit("Error: malloc at gym_open", 16);
-	
-		if (pthread_create(gym->philos[i]->philo_thread, NULL, &gym_table, NULL))
-			error_exit("Error: creating thread", 17000 + i);
-	
-		gym->philos[i]->is_alive = 1;
-		gym->philos[i]->is_done = 0;
-		gym->philos[i]->last_meal = 0;
-	
-		i++;
-	}
-	gym->open_time = gym_gettime();
-	return (0);
-}
-
 int	gym_thread_destroy(t_gym *gym)
 {
 	int	i;
@@ -44,29 +29,36 @@ int	gym_thread_destroy(t_gym *gym)
 	i = 0;
 	while (i > gym->total_philos)
 	{
-
+		
 		i++;
 	}
 	return (0);
 }
 
 // sets the initial time for all philos
-int	gym_open(t_gym *gym)
+int	gym_execute(t_gym *gym)
 {
-	gym_thread_create(gym);
-	// tengo los filósofos creados;
+	gym_forks_create(gym); // tenedores creados;
+	gym_philos_create(gym);	// filósofos creados;
+
 	gym_thread_destroy(gym);
 	return (0);
 }
 
 int	main(int ac, char **av)
 {
+	int		invalid;
 	t_gym	gym;
 
-	if (gym_init(&gym, ac, av))
+	invalid = gym_init(&gym, ac, av);
+	if (invalid)
 		return (1);
-	gym_open(&gym);
+	gym_execute(&gym);
+	
+	// for debug only
 	debug_struct(&gym);
 	debug_print_time();
-	exit (0);
+	exit (33);
+	return (0);
 }
+
