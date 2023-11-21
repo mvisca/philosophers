@@ -47,6 +47,7 @@ int	gym_thread_destroy(t_gym *gym)
 
 		i++;
 	}
+	return (0);
 }
 
 // sets the initial time for all philos
@@ -55,6 +56,7 @@ int	gym_open(t_gym *gym)
 	gym_thread_create(gym);
 	// tengo los filósofos creados;
 	gym_thread_destroy(gym);
+	return (0);
 }
 
 int	main(int ac, char **av)

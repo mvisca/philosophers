@@ -12,6 +12,7 @@ int clean_tab(char **tab)
     }
     if (tab)
         free(tab);
+	return (0);
 }
 
 void	error_exit(char *str, int exit_code)

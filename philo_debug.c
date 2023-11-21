@@ -5,10 +5,10 @@
 void    debug_struct(t_gym *gym)
 {
 	printf("gym > %s\n", gym != NULL ? "TRUE" : "FALSE");
-	printf("gym->time_to_die > %lu\n", gym->time_to_die);
-	printf("gym->time_to_eat > %lu\n", gym->time_to_eat);
-	printf("gym->time_to_sleep > %lu\n", gym->time_to_sleep);
-	printf("gym->open_time > %lu\n", gym->open_time);
+	printf("gym->time_to_die > %llu\n", gym->time_to_die);
+	printf("gym->time_to_eat > %llu\n", gym->time_to_eat);
+	printf("gym->time_to_sleep > %llu\n", gym->time_to_sleep);
+	printf("gym->open_time > %llu\n", gym->open_time);
 	if (gym->meals_to_be_done == -1)
 		printf("gym->meals_to_be_done > NONE\n");
 	else
@@ -37,5 +37,5 @@ void	debug_print_time(void)
 	uint64_t	time;
 
 	time = gym_gettime();
-	printf("Time is = %lu", time);
+	printf("Time is = %llu", time);
 }
