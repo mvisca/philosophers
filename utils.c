@@ -42,7 +42,7 @@ t_bool	ft_usleep(int hold)
 		usleep(10);
 		current_time = time_now();
 	}
-	return (true);
+	return (true_e);
 }
 
 t_bool	free_all(t_table *table)
@@ -58,5 +58,5 @@ t_bool	free_all(t_table *table)
 	free(table->philos);
 	pthread_mutex_destroy(&table->print);
 	pthread_mutex_destroy(&table->stop_run);
-	return (true);
+	return (false_e);
 }
