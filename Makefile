@@ -1,32 +1,27 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: mvisca-g <mvisca-g@student.42barcel>       +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/11/21 18:55:27 by mvisca-g          #+#    #+#              #
-#    Updated: 2023/11/21 20:15:13 by mvisca-g         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME	=	philo
 
-all: philo
+CFLAGS	=	-Wall -Wextra -Werror
 
-philo:
-	@cc	./philosophers.c \
-		./philo_creator.c \
-		./philo_destroy.c \
-		./philo_parse.c \
-		./philo_parse_error.c \
-		./philo_parse_utils.c \
-		./philo_time.c \
-		./philo_debug.c \
-		-I. -o philo # -g -fsanitize=address
-	@echo "Compiling..."
-	@echo "Binary 'philo' created. Success!"
+RM		=	rm -rf
+
+SRCS	=	error.c \
+			init.c \
+			join.c \
+			life.c \
+			main.c \
+			print.c \
+			utils.c \
+			validate.c	
+
+all: $(NAME)
+
+$(NAME): cc $(CFLAGS) $(SRCS) -o $(NAME)
+
+fclean: clean
 
 clean:
-	@rm philo
-	@echo "Binary 'philo' deleted."
+	$(RM) $(NAME)
 
-re: clean all
+re: fclean all
+
+.PHONY: clean fclean
