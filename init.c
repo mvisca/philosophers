@@ -14,6 +14,7 @@ t_bool	init_table(int ac, char **av, t_table *table)
 	table->time_eat = ft_atoi(av[3]) * 1000;
 	table->time_sleep = ft_atoi(av[4]) * 1000;
 	table->total_meals = -1;
+	table->philos_done = 0;
 	if (ac == 6)
 		table->total_meals = ft_atoi(av[5]);
 	if (pthread_mutex_init(&table->print, NULL) != 0)

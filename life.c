@@ -48,19 +48,13 @@ void	*philo_life(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	printf("soy philo %d y last meal %lld \n", philo->chair_num, philo->last_meal);
 	if (philo->last_meal < 0)
 	{
 		while (!philo->table->time_zero)
-		{
-			printf("esperando el arranque thread %d\n", philo->chair_num);
 			usleep(5);
-		}
 		philo->last_meal = philo->table->time_zero;
-	printf("soy philo %d y last meal %lld \n", philo->chair_num, philo->last_meal);
-	printf("total meals %d\n", philo->meals_count);
 	}
-	while (is_alive(philo) && !is_satisfied(philo)) // eliminado philo->run de la condición
+	while (is_alive(philo) && !is_satisfied(philo))
 	{
 		eat(philo);
 		if (is_alive(philo) && print_sleep(philo))

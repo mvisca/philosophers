@@ -44,6 +44,7 @@ typedef struct s_table
 	int				time_eat;
 	int				time_sleep;
 	int				total_meals;
+	int				philos_done;
 	pthread_mutex_t	print;
 	pthread_mutex_t	stop_run;
 	t_bool			run;

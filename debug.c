@@ -24,5 +24,6 @@ void	print_structs(t_table *table)
 	printf("Table->time eat %d\n", table->time_eat);
 	printf("Table->time sleep %d\n", table->time_sleep);
 	printf("Table->total meal %d\n", table->total_meals);
+	printf("Table->philos done %d\n", table->philos_done);
 	printf("Table->run %s\n", table->run ? "ture" : "false");
 }
