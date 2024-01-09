@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:21:51 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/09 18:52:45 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/09 19:56:06 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@ t_bool	init_table(int ac, char **av, t_table *table)
 		return (false_e);
 	table->run = true_e;
 	table->philos_n = ft_atoi(av[1]);
-	table->philos = (t_philo *) malloc (sizeof(struct s_philo) * (table->philos_n + 1));
-	if (!table->philos && print_mallocerror(table))
-		return (false_e);
 	table->time_zero = 0;
 	table->time_die = ft_atoi(av[2]) * 1000;
 	table->time_eat = ft_atoi(av[3]) * 1000;
@@ -35,6 +32,9 @@ t_bool	init_table(int ac, char **av, t_table *table)
 		print_mutexinierror(table);
 	if (pthread_mutex_init(&table->count, NULL) != 0)
 		print_mutexinierror(table);
+	table->philos = (t_philo *) malloc (sizeof(struct s_philo) * (table->philos_n));
+	if (!table->philos && print_mallocerror(table))
+		return (false_e);
 	return (true_e);
 }
 

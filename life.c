@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:25 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/09 18:52:22 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/09 19:57:58 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_bool	is_satisfied(t_philo *philo)
 
 t_bool	is_alive(t_philo *philo)
 {
-	if (time_now() - philo->last_meal < philo->table->time_die)
+	if (time_now() - philo->last_meal <= philo->table->time_die)
 		return (true_e);
 	stop_tablerun(philo->table);
 	print_die(philo);
@@ -35,29 +35,25 @@ t_bool	is_alive(t_philo *philo)
 
 void	eat(t_philo *philo)
 {
-	if (is_alive(philo))
+	if (philo->chair_num % 2 == 0)
 	{
-		if (philo->chair_num % 2 == 0)
-		{
-			ft_usleep(20);
-			pthread_mutex_lock(philo->right_f);
-			print_fork(philo);
-			pthread_mutex_lock(&philo->left_f);
-			print_fork(philo);
-		}
-		else
-		{
-			pthread_mutex_lock(&philo->left_f);
-			print_fork(philo);
-			pthread_mutex_lock(philo->right_f);
-			print_fork(philo);
-		}	
-		philo->last_meal = time_now();
-		pthread_mutex_unlock(&philo->left_f);
-		pthread_mutex_unlock(philo->right_f);
-		print_eat(philo);
-		philo->meals_count++;
+		pthread_mutex_lock(philo->right_f);
+		print_fork(philo);
+		pthread_mutex_lock(&philo->left_f);
 	}
+	else
+	{
+		pthread_mutex_lock(&philo->left_f);
+		print_fork(philo);
+		pthread_mutex_lock(philo->right_f);
+	}	
+	print_fork(philo);
+	philo->last_meal = time_now();
+	pthread_mutex_unlock(&philo->left_f);
+	pthread_mutex_unlock(philo->right_f);
+	print_eat(philo);
+	philo->meals_count++;
+	ft_usleep(philo->table->time_eat);
 }
 
 void	stop_tablerun(t_table *table)
@@ -77,7 +73,7 @@ void	*philo_life(void *arg)
 	t = philo->table;
 	run = &t->run;
 	while (!t->time_zero)
-		usleep(20);
+		ft_usleep(50);
 	philo->last_meal = t->time_zero;
 	while (*run && is_alive(philo) && !is_satisfied(philo) \
 		&& t->philos_done != t->total_meals)

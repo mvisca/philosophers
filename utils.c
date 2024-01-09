@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:59 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/09 17:23:00 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/09 19:27:23 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,11 @@ int	ft_atoi(char *str)
 
 t_bool	ft_usleep(int hold)
 {
-	long long	current_time;
 	long long	starting_time;
 
-	current_time = time_now();
-	starting_time = current_time;
-	while (current_time - starting_time < hold)
-	{
+	starting_time = time_now();
+	while (time_now() - starting_time < hold)
 		usleep(50);
-		current_time = time_now();
-	}
 	return (true_e);
 }
 
