@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/09 17:21:38 by mvisca            #+#    #+#             */
+/*   Updated: 2024/01/09 18:28:26 by mvisca           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 t_bool	print_argserror(void)
@@ -31,6 +43,6 @@ t_bool	print_mutexinierror(t_table *table)
 
 t_bool	print_maxerror(void)
 {
-	printf("n_philos must be > 0 && < 201\nn_meals must > 0\n");
+	printf("n_philos must be > 0 && < 201\nn_meals must be > 0\n");
 	return (true_e);
 }

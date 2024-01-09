@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/09 17:22:32 by mvisca            #+#    #+#             */
+/*   Updated: 2024/01/09 17:35:24 by mvisca           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 int	main(int ac, char **av)
@@ -9,7 +21,6 @@ int	main(int ac, char **av)
 	else
 		return (1);
 	join_philos(&table);
-	print_structs(&table);
 	free_all(&table);
 	return (0);
 }

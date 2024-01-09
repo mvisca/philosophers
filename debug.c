@@ -12,8 +12,6 @@ void	print_structs(t_table *table)
 		printf("\tPhilo->p_thread %p\n", &table->philos[i].p_thread);
 		printf("\tPhilo->last_meal %lld\n", table->philos[i].last_meal);
 		printf("\tPhilo->meals_count %d\n", table->philos[i].meals_count);
-		printf("\tPhilo->is_satisfied %s\n", table->philos[i].is_satisfied ? "true" : "false");
-		printf("\tPhilo->is_alive %s\n", table->philos[i].is_alive ? "true" : "false");
 		printf("\tPhilo->left_f %p\n", &table->philos[i].left_f);
 		printf("\tPhilo->right_f %p\n", table->philos[i].right_f);
 		printf("\tPhilo->table %p\n", table->philos[i].table);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/09 17:22:49 by mvisca            #+#    #+#             */
+/*   Updated: 2024/01/09 18:52:32 by mvisca           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 # define PHILO_H
 
@@ -57,8 +69,6 @@ typedef struct s_philo
 	int				chair_num;
 	long long		last_meal;
 	int				meals_count;
-	t_bool			is_satisfied;
-	t_bool			is_alive;				
 	pthread_mutex_t	left_f;
 	pthread_mutex_t	*right_f;
 	t_table			*table;

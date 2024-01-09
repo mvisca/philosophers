@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/09 17:21:51 by mvisca            #+#    #+#             */
+/*   Updated: 2024/01/09 18:52:45 by mvisca           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 t_bool	init_table(int ac, char **av, t_table *table)
@@ -39,28 +51,15 @@ t_bool	init_philos(t_table *table)
 		philo->chair_num = n + 1;
 		philo->last_meal = -1;
 		philo->meals_count = 0;
-		philo->is_satisfied = false_e;
-		philo->is_alive = true_e;
 		if (pthread_mutex_init(&philo->left_f, NULL) != 0)
-		{
-			free_all(table);
-			return (false_e);
-		}
-		if (table->philos_n == 1) // philo solo nunca 2 fork
-		{
-			print_die(philo); // FIX timestamp
-			free_all(table); // destruye mutex y philos*
-			return (false_e);
-		}
-		if (n > 0) // R fork
+			return (free_all(table));
+		if (table->philos_n == 1 && print_die(philo))
+			return (free_all(table));
+		table->philos[0].right_f = &philo->left_f;
+		if (n > 0)
 			philo->right_f = &table->philos[n - 1].left_f;
-		if (n + 1 == table->philos_n)
-			table->philos[0].right_f = &philo->left_f;
 		n++;
 		if (pthread_create(&philo->p_thread, NULL, philo_life, philo) != 0)
-		{
-			free_all(table);
-			return (false_e);
-		}
+			return (free_all(table));
 	}
 }
