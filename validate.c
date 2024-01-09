@@ -3,22 +3,13 @@
 t_bool	validate_args(int ac, char **av)
 {
 	if (ac < 5 || ac > 6)
-	{
-		print_argserror();
-		return (false_e);
-	}
+		return (!print_argserror());
 	if (!validate_chars(av))
-	{
-		print_charerror();
-		return (false_e);
-	}
-	printf("HERE %d\n",ft_atoi(av[1]));
+		return (!print_charerror());
 	if (ft_atoi(av[1]) > 200 || ft_atoi(av[1]) < 1)
-	{
-		printf("validate args\n");
-		print_maxerror();
-		return (false_e);
-	}
+		return (!print_maxerror());
+	if (ac == 6 && ft_atoi(av[5]) == 0)
+		return (!print_maxerror());
 	return (true_e);
 }
 

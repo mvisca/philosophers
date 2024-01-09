@@ -31,6 +31,6 @@ t_bool	print_mutexinierror(t_table *table)
 
 t_bool	print_maxerror(void)
 {
-	printf("Max amount of philos exceeded (max = 200)\n");
+	printf("n_philos must be > 0 && < 201\nn_meals must > 0\n");
 	return (true_e);
 }

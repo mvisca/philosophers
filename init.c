@@ -10,9 +10,9 @@ t_bool	init_table(int ac, char **av, t_table *table)
 	if (!table->philos && print_mallocerror(table))
 		return (false_e);
 	table->time_zero = 0;
-	table->time_die = ft_atoi(av[2]);
-	table->time_eat = ft_atoi(av[3]);
-	table->time_sleep = ft_atoi(av[4]);
+	table->time_die = ft_atoi(av[2]) * 1000;
+	table->time_eat = ft_atoi(av[3]) * 1000;
+	table->time_sleep = ft_atoi(av[4]) * 1000;
 	table->total_meals = -1;
 	if (ac == 6)
 		table->total_meals = ft_atoi(av[5]);
@@ -38,9 +38,9 @@ t_bool	init_philos(t_table *table)
 		philo->meals_count = 0;
 		philo->is_satisfied = false_e;
 		philo->is_alive = true_e;
-		if (pthread_mutex_init(&philo->left_f, NULL) != 0) // L fork
+		if (pthread_mutex_init(&philo->left_f, NULL) != 0)
 		{
-			free_all(table); // destruye mutexes y philos*
+			free_all(table);
 			return (false_e);
 		}
 		if (table->philos_n == 1) // philo solo nunca 2 fork
