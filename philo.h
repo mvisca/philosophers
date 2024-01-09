@@ -47,6 +47,7 @@ typedef struct s_table
 	int				philos_done;
 	pthread_mutex_t	print;
 	pthread_mutex_t	stop_run;
+	pthread_mutex_t	count;
 	t_bool			run;
 } t_table;
 
@@ -82,6 +83,7 @@ t_bool		validate_chars(char **str);
 t_bool		is_satisfied(t_philo *philo);
 t_bool		is_alive(t_philo *philo);
 void		eat(t_philo *philo);
+void		stop_tablerun(t_table *table);
 void		*philo_life(void *arg);
 
 // print.c

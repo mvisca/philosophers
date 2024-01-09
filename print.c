@@ -11,7 +11,7 @@ t_bool	print_fork(t_philo *philo)
 t_bool	print_eat(t_philo *philo)
 {	
 	pthread_mutex_lock(&philo->table->print);
-	printf("%lld %d is eating\n", time_now(), philo->chair_num);
+	printf("%lld %d is eating\n", philo->last_meal, philo->chair_num);
 	pthread_mutex_unlock(&philo->table->print);
 	return (true_e);
 }

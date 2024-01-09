@@ -21,6 +21,8 @@ t_bool	init_table(int ac, char **av, t_table *table)
 		print_mutexinierror(table);
 	if (pthread_mutex_init(&table->stop_run, NULL) != 0)
 		print_mutexinierror(table);
+	if (pthread_mutex_init(&table->count, NULL) != 0)
+		print_mutexinierror(table);
 	return (true_e);
 }
 

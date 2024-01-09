@@ -39,7 +39,7 @@ t_bool	ft_usleep(int hold)
 	starting_time = current_time;
 	while (current_time - starting_time < hold)
 	{
-		usleep(10);
+		usleep(50);
 		current_time = time_now();
 	}
 	return (true_e);
@@ -58,5 +58,6 @@ t_bool	free_all(t_table *table)
 	free(table->philos);
 	pthread_mutex_destroy(&table->print);
 	pthread_mutex_destroy(&table->stop_run);
+	pthread_mutex_destroy(&table->count);
 	return (false_e);
 }
