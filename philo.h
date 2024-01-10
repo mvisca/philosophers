@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:49 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/09 18:52:32 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/10 14:00:36 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,28 +50,28 @@ struct s_philo;
 typedef struct s_table
 {
 	int				philos_n;
-	struct s_philo	*philos;
-	long long		time_zero;
 	int				time_die;
 	int				time_eat;
 	int				time_sleep;
-	int				total_meals;
+	long long		time_zero;
+	t_bool			run;
 	int				philos_done;
+	int				total_meals;
 	pthread_mutex_t	print;
 	pthread_mutex_t	stop_run;
 	pthread_mutex_t	count;
-	t_bool			run;
+	struct s_philo	*philos;
 } t_table;
 
 typedef struct s_philo
 {
-	pthread_t		p_thread;
+	t_table			*table;
 	int				chair_num;
 	long long		last_meal;
 	int				meals_count;
 	pthread_mutex_t	left_f;
 	pthread_mutex_t	*right_f;
-	t_table			*table;
+	pthread_t		p_thread;
 } t_philo;
 
 // init.c
