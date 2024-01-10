@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   life.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:25 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/09 19:57:58 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/10 19:49:00 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ void	eat(t_philo *philo)
 		pthread_mutex_lock(&philo->left_f);
 		print_fork(philo);
 		pthread_mutex_lock(philo->right_f);
-	}	
+	}
 	print_fork(philo);
 	philo->last_meal = time_now();
+	ft_usleep(philo->table->time_eat);
 	pthread_mutex_unlock(&philo->left_f);
 	pthread_mutex_unlock(philo->right_f);
 	print_eat(philo);
 	philo->meals_count++;
-	ft_usleep(philo->table->time_eat);
 }
 
 void	stop_tablerun(t_table *table)
@@ -79,7 +79,8 @@ void	*philo_life(void *arg)
 		&& t->philos_done != t->total_meals)
 	{
 		eat(philo);
-		if (*run && is_alive(philo) && !is_satisfied(philo) && print_sleep(philo))
+		if (*run && is_alive(philo) && !is_satisfied(philo) \
+			&& print_sleep(philo))
 			ft_usleep(philo->table->time_sleep);
 		if (*run && is_alive(philo) && !is_satisfied(philo))
 			print_think(philo);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:59 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/09 19:27:23 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/10 20:21:17 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ long long	time_now(void)
 		printf("Error while reading time\n");
 	total_time = (time.tv_sec * 1e6) + time.tv_usec;
 	return (total_time);
+}
+
+long long	ustoms(long long t, long long t_z)
+{
+	return ((t - t_z) / 1000);
 }
 
 int	ft_atoi(char *str)

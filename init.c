@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:21:51 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/10 14:08:47 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/10 20:20:07 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,15 @@ t_bool	init_table(int ac, char **av, t_table *table)
 	return (true_e);
 }
 
+static t_bool	only_one(t_philo *philo)
+{
+	philo->table->time_zero = time_now();
+	print_fork(philo);
+	ft_usleep(philo->table->time_die);
+	print_die(philo);
+	return (true_e);
+}
+
 t_bool	init_philos(t_table *table)
 {
 	int		n;
@@ -52,8 +61,7 @@ t_bool	init_philos(t_table *table)
 		philo->chair_num = n + 1;
 		philo->last_meal = -1;
 		philo->meals_count = 0;
-		if (table->philos_n == 1 && ft_usleep(table->time_die) \
-			&& print_die(philo))
+		if (table->philos_n == 1 && only_one(philo))
 			return (free_all(table));
 		if (pthread_mutex_init(&philo->left_f, NULL) != 0)
 			return (free_all(table));
@@ -64,4 +72,5 @@ t_bool	init_philos(t_table *table)
 			return (free_all(table));
 		n++;
 	}
+	return (true_e);
 }

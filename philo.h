@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:49 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/10 14:00:36 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/10 20:06:30 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ typedef enum e_bool
 {
 	false_e,
 	true_e
-} t_bool;
+}	t_bool;
 
-struct s_philo;
+struct	s_philo;
 
 typedef struct s_table
 {
@@ -61,7 +61,7 @@ typedef struct s_table
 	pthread_mutex_t	stop_run;
 	pthread_mutex_t	count;
 	struct s_philo	*philos;
-} t_table;
+}	t_table;
 
 typedef struct s_philo
 {
@@ -72,7 +72,7 @@ typedef struct s_philo
 	pthread_mutex_t	left_f;
 	pthread_mutex_t	*right_f;
 	pthread_t		p_thread;
-} t_philo;
+}	t_philo;
 
 // init.c
 t_bool		init_table(int ac, char **av, t_table *table);
@@ -108,6 +108,7 @@ t_bool		join_philos(t_table *table);
 
 // utils.c
 long long	time_now(void);
+long long	ustoms(long long t, long long t_z);
 int			ft_atoi(char *str);
 t_bool		ft_usleep(int hold);
 t_bool		free_all(t_table *table);
