@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:21:51 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/10 20:20:07 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/01/16 09:07:58 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 t_bool	init_table(int ac, char **av, t_table *table)
 {
-	if (!validate_args(ac, av))
-		return (false_e);
 	table->philos_n = ft_atoi(av[1]);
 	table->time_die = ft_atoi(av[2]) * 1000;
 	table->time_eat = ft_atoi(av[3]) * 1000;
