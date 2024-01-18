@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+         #
+#    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/09 17:22:41 by mvisca            #+#    #+#              #
-#    Updated: 2024/01/10 18:52:42 by mvisca-g         ###   ########.fr        #
+#    Updated: 2024/01/16 20:35:06 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,14 +31,15 @@ NAME			:= philo
 #	SRC					#
 #-----------------------#
 
-SRCS			:=	debug.c \
-					error.c \
-					init.c \
-					join.c \
-					life.c \
-					main.c \
-					print.c \
-					utils.c \
+SRCS			:=	actions.c	\
+					debug.c		\
+					error.c		\
+					init.c		\
+					join.c		\
+					life.c		\
+					main.c		\
+					print.c		\
+					utils.c		\
 					validate.c
 
 #-----------------------#
@@ -56,11 +57,12 @@ H_FLAGS			:= -I.
 all: $(NAME)
 
 $(NAME): 
-	@$(CC) $(H_FLAGS) $(SRCS) -o $(NAME)
+	@$(CC) -g -fsanitize=thread $(H_FLAGS) $(SRCS) -o $(NAME)
 	@echo "$(BLUE)Building $(RED)$(NAME)"
 
 clean:
 	@rm -f $(NAME)
+	@echo "$(YELLOW)Removing $(RED)$(NAME)"
 
 fclean: clean
 	@echo "$(YELLOW)Removing $(RED)$(NAME)"

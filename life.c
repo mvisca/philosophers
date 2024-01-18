@@ -3,89 +3,62 @@
 /*                                                        :::      ::::::::   */
 /*   life.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:25 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/10 19:49:00 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/01/18 14:26:10 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-t_bool	is_satisfied(t_philo *philo)
+static void	wait_others(t_table *table)
 {
-	if (philo->meals_count == philo->table->total_meals)
+	while (!pthread_mutex_lock(&table->time) && !table->time_zero)
 	{
-		pthread_mutex_lock(&philo->table->count);
-		philo->table->philos_done++;
-		pthread_mutex_unlock(&philo->table->count);
-		return (true_e);
+		pthread_mutex_unlock(&table->time);
+		ft_usleep(50);
 	}
-	return (false_e);
+	pthread_mutex_unlock(&table->time);
 }
 
-t_bool	is_alive(t_philo *philo)
+static void	start_life(t_philo *philo)
 {
-	if (time_now() - philo->last_meal <= philo->table->time_die)
-		return (true_e);
-	stop_tablerun(philo->table);
-	print_die(philo);
-	return (false_e);
+	pthread_mutex_lock(&philo->table->time);
+	philo->last_meal = philo->table->time_zero;
+	pthread_mutex_unlock(&philo->table->time);
 }
 
-void	eat(t_philo *philo)
-{
-	if (philo->chair_num % 2 == 0)
-	{
-		pthread_mutex_lock(philo->right_f);
-		print_fork(philo);
-		pthread_mutex_lock(&philo->left_f);
-	}
-	else
-	{
-		pthread_mutex_lock(&philo->left_f);
-		print_fork(philo);
-		pthread_mutex_lock(philo->right_f);
-	}
-	print_fork(philo);
-	philo->last_meal = time_now();
-	ft_usleep(philo->table->time_eat);
-	pthread_mutex_unlock(&philo->left_f);
-	pthread_mutex_unlock(philo->right_f);
-	print_eat(philo);
-	philo->meals_count++;
-}
+// static void	lonely_life(t_philo *philo)
+// {
+// 	print_fork(philo);
+// 	ft_usleep(philo->table->time_die);
+// 	print_die(philo);
+// }
 
-void	stop_tablerun(t_table *table)
+static void	start_eating(t_philo *philo, t_table *table, t_bool *run)
 {
-	pthread_mutex_lock(&table->stop_run);
-	table->run = false_e;
-	pthread_mutex_unlock(&table->stop_run);
+	while (check_philo(philo))
+	{
+		forks(philo);
+		eat(philo); // actualiza t->philos_done si is_satisfied(philo) retorna true_e
+		sleep(philo);
+		think(philo);
+	}
+	while (*run || philo->table->philos_done <= philo->table->philos_n)
+		ft_usleep(50);
+	return (NULL);
 }
 
 void	*philo_life(void *arg)
 {
 	t_philo	*philo;
-	t_table	*t;
-	t_bool	*run;
 
 	philo = (t_philo *)arg;
-	t = philo->table;
-	run = &t->run;
-	while (!t->time_zero)
-		ft_usleep(50);
-	philo->last_meal = t->time_zero;
-	while (*run && is_alive(philo) && !is_satisfied(philo) \
-		&& t->philos_done != t->total_meals)
-	{
-		eat(philo);
-		if (*run && is_alive(philo) && !is_satisfied(philo) \
-			&& print_sleep(philo))
-			ft_usleep(philo->table->time_sleep);
-		if (*run && is_alive(philo) && !is_satisfied(philo))
-			print_think(philo);
-	}
-	while (*run && philo->table->philos_done <= philo->table->philos_n)
-		ft_usleep(100);
-	return (NULL);
+	wait_others(philo->table);
+	start_life(philo);
+	// if (&philo->left_f == philo->right_f)
+	// 	lonely_life(philo);
+	// else
+	group_eating(philo, philo->table, &philo->table->run);
 }

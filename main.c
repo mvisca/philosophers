@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:32 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/16 09:08:12 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/18 12:53:37 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@ int	main(int ac, char **av)
 	if (!validate_args(ac, av))
 		return (false_e);	
 	if (init_table(ac, av, &table) && init_philos(&table))
+	{
+		pthread_mutex_lock(&table.time);
 		table.time_zero = time_now();
+		pthread_mutex_unlock(&table.time);
+	}
 	else
 		return (1);
 	join_philos(&table);

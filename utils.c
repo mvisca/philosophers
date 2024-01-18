@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:59 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/10 20:21:17 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/01/16 19:15:15 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,13 @@ t_bool	free_all(t_table *table)
 {
 	int	n;
 
-	n = 0;
-	while (n < table->philos_n)
-	{
-		pthread_mutex_destroy(&table->philos[n].left_f);
-		n++;
-	}
-	free(table->philos);
+	pthread_mutex_destroy(&table->count);
 	pthread_mutex_destroy(&table->print);
 	pthread_mutex_destroy(&table->stop_run);
-	pthread_mutex_destroy(&table->count);
+	pthread_mutex_destroy(&table->time);
+	n = 0;
+	while (n < table->philos_n)
+		pthread_mutex_destroy(&table->philos[n++].left_f);
+	free(table->philos);
 	return (false_e);
 }

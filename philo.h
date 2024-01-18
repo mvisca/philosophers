@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:49 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/10 20:06:30 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/01/18 13:59:24 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,23 @@
 // use for typeoverflow control
 # include <limits.h>
 
-// type for bools
+// custom type for bools
 typedef enum e_bool
 {
 	false_e,
 	true_e
 }	t_bool;
 
+// custom type to protect mutex @ init_table()  
+typedef struct s_ints
+{
+	int				count;
+	int				print;
+	int				stop_run;
+	int				time;
+}	t_ints;
+
+// prototype to nest s_philo in s_table
 struct	s_philo;
 
 typedef struct s_table
@@ -57,9 +67,10 @@ typedef struct s_table
 	t_bool			run;
 	int				philos_done;
 	int				total_meals;
+	pthread_mutex_t	count;
 	pthread_mutex_t	print;
 	pthread_mutex_t	stop_run;
-	pthread_mutex_t	count;
+	pthread_mutex_t	time;
 	struct s_philo	*philos;
 }	t_table;
 
@@ -74,9 +85,36 @@ typedef struct s_philo
 	pthread_t		p_thread;
 }	t_philo;
 
+// custom type to reduce code @ philo_life()
+typedef struct s_custom
+{
+	t_philo			*philo;
+	t_table			*table;
+}	t_custom;
+
+// validate.c
+t_bool		validate_args(int ac, char **av);
+t_bool		validate_chars(char **str);
+t_bool		is_alive(t_philo *philo);
+t_bool		is_satisfied(t_philo *philo);
+t_bool		check_philo(t_philo *philo);
+
 // init.c
 t_bool		init_table(int ac, char **av, t_table *table);
 t_bool		init_philos(t_table *table);
+
+// life.c
+void		*philo_life(void *arg);
+
+// actions.c
+void		forks(t_philo *philo);
+void		eat(t_philo *philo);
+void		sleep(t_philo *philo);
+void		think(t_philo *philo);
+void		die(t_philo *philo);
+
+// join.c
+t_bool		join_philos(t_table *table);
 
 // error.c
 t_bool		print_argserror(void); // in file
@@ -85,26 +123,12 @@ t_bool		print_mallocerror(t_table *table); // in filie
 t_bool		print_mutexinierror(t_table *table); // in file
 t_bool		print_maxerror(void); // in file
 
-// validate.c
-t_bool		validate_args(int ac, char **av);
-t_bool		validate_chars(char **str);
-
-// life.c
-t_bool		is_satisfied(t_philo *philo);
-t_bool		is_alive(t_philo *philo);
-void		eat(t_philo *philo);
-void		stop_tablerun(t_table *table);
-void		*philo_life(void *arg);
-
 // print.c
 t_bool		print_fork(t_philo *philo);
 t_bool		print_eat(t_philo *philo);
 t_bool		print_sleep(t_philo *philo);
 t_bool		print_think(t_philo *philo);
 t_bool		print_die(t_philo *philo);
-
-// join.c
-t_bool		join_philos(t_table *table);
 
 // utils.c
 long long	time_now(void);
@@ -113,6 +137,7 @@ int			ft_atoi(char *str);
 t_bool		ft_usleep(int hold);
 t_bool		free_all(t_table *table);
 
+// debug.c
 void		print_structs(t_table *table);
 
 #endif

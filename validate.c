@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:23:04 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/09 17:23:05 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/18 15:36:16 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,39 @@ t_bool	validate_chars(char  **str)
 		i++;
 	}
 	return (true_e);
+}
+
+t_bool	check_philo(t_philo *philo)
+{
+	return (is_alive(philo) && !is_satisfied(philo));
+}
+
+t_bool	is_alive(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->table->stop_run);
+	if (!philo->table->run)
+	{
+		pthread_mutex_unlock(&philo->table->stop_run);
+		return (false_e);
+	}
+	if (time_now() - philo->last_meal >= philo->table->time_die)
+	{
+		philo->table->run = false_e;
+		pthread_mutex_unlock(&philo->table->stop_run);
+		return (false_e);
+	}
+	pthread_mutex_unlock(&philo->table->stop_run);
+	return (true_e);
+}
+
+t_bool	is_satisfied(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->table->count);
+	if (philo->meals_count == philo->table->total_meals)
+	{
+		pthread_mutex_unlock(&philo->table->count);
+		return (true_e);
+	}
+	pthread_mutex_unlock(&philo->table->count);
+	return (false_e);
 }
