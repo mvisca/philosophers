@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/09 17:22:41 by mvisca            #+#    #+#              #
-#    Updated: 2024/01/16 20:35:06 by mvisca           ###   ########.fr        #
+#    Updated: 2024/01/18 17:31:50 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,15 +31,15 @@ NAME			:= philo
 #	SRC					#
 #-----------------------#
 
-SRCS			:=	actions.c	\
-					debug.c		\
-					error.c		\
-					init.c		\
-					join.c		\
-					life.c		\
-					main.c		\
-					print.c		\
-					utils.c		\
+SRCS			:=	actions.c		\
+					debug.c			\
+					error.c			\
+					init.c			\
+					join.c			\
+					life.c			\
+					main.c			\
+					print.c			\
+					utils.c			\
 					validate.c
 
 #-----------------------#
@@ -65,7 +65,6 @@ clean:
 	@echo "$(YELLOW)Removing $(RED)$(NAME)"
 
 fclean: clean
-	@echo "$(YELLOW)Removing $(RED)$(NAME)"
 
 re: fclean all
 

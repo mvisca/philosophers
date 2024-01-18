@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:25 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/18 14:26:10 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/18 17:31:30 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,12 @@ static void	start_eating(t_philo *philo, t_table *table, t_bool *run)
 {
 	while (check_philo(philo))
 	{
-		forks(philo);
 		eat(philo); // actualiza t->philos_done si is_satisfied(philo) retorna true_e
-		sleep(philo);
+		ft_sleep(philo);
 		think(philo);
 	}
 	while (*run || philo->table->philos_done <= philo->table->philos_n)
 		ft_usleep(50);
-	return (NULL);
 }
 
 void	*philo_life(void *arg)
@@ -60,5 +58,5 @@ void	*philo_life(void *arg)
 	// if (&philo->left_f == philo->right_f)
 	// 	lonely_life(philo);
 	// else
-	group_eating(philo, philo->table, &philo->table->run);
+	start_eating(philo, philo->table, &philo->table->run);
 }

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:59 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/16 19:15:15 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/18 16:06:27 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_bool	ft_usleep(int hold)
 
 	starting_time = time_now();
 	while (time_now() - starting_time < hold)
-		usleep(50);
+		usleep(10);
 	return (true_e);
 }
 

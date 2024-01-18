@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:23:04 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/18 15:36:16 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/18 16:47:50 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ t_bool	is_alive(t_philo *philo)
 	if (time_now() - philo->last_meal >= philo->table->time_die)
 	{
 		philo->table->run = false_e;
+		print_die(philo);
 		pthread_mutex_unlock(&philo->table->stop_run);
 		return (false_e);
 	}

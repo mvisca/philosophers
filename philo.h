@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:49 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/18 13:59:24 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/18 17:29:54 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,14 @@ typedef enum e_bool
 	false_e,
 	true_e
 }	t_bool;
+
+// enum tot determine conditional execution of use_forks(...) @ actions.c
+typedef enum e_philo_case
+{
+	alone,
+	even,
+	odd
+} t_philo_case;
 
 // custom type to protect mutex @ init_table()  
 typedef struct s_ints
@@ -107,11 +115,9 @@ t_bool		init_philos(t_table *table);
 void		*philo_life(void *arg);
 
 // actions.c
-void		forks(t_philo *philo);
 void		eat(t_philo *philo);
-void		sleep(t_philo *philo);
+void		ft_sleep(t_philo *philo);
 void		think(t_philo *philo);
-void		die(t_philo *philo);
 
 // join.c
 t_bool		join_philos(t_table *table);
