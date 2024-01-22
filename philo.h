@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:49 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/18 17:29:54 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/22 21:55:24 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,13 @@ typedef enum e_bool
 	true_e
 }	t_bool;
 
-// enum tot determine conditional execution of use_forks(...) @ actions.c
-typedef enum e_philo_case
-{
-	alone,
-	even,
-	odd
-} t_philo_case;
-
 // custom type to protect mutex @ init_table()  
 typedef struct s_ints
 {
-	int				count;
+	int				alive;
+	int				meals;
 	int				print;
-	int				stop_run;
+	int				satisfied;
 	int				time;
 }	t_ints;
 
@@ -68,37 +61,41 @@ struct	s_philo;
 typedef struct s_table
 {
 	int				philos_n;
-	int				time_die;
-	int				time_eat;
-	int				time_sleep;
+	int				die_time;
+	int				eat_time;
+	int				sleep_time;
+	int				meals_target;
 	long long		time_zero;
-	t_bool			run;
-	int				philos_done;
-	int				total_meals;
-	pthread_mutex_t	count;
-	pthread_mutex_t	print;
-	pthread_mutex_t	stop_run;
-	pthread_mutex_t	time;
+	t_bool			alive_all;
+	t_bool			satisfied_all;
+	int				satisfied_count;
+	pthread_mutex_t	use_alive;
+	pthread_mutex_t	use_meals;
+	pthread_mutex_t	use_print;
+	pthread_mutex_t	use_satisfied;
+	pthread_mutex_t	use_time;
 	struct s_philo	*philos;
 }	t_table;
 
 typedef struct s_philo
 {
-	t_table			*table;
-	int				chair_num;
-	long long		last_meal;
-	int				meals_count;
-	pthread_mutex_t	left_f;
-	pthread_mutex_t	*right_f;
-	pthread_t		p_thread;
+	pthread_t		philo_thread;
+	int				philo_n;
+	int				meal_count;
+	long long		meal_last;
+	t_bool			alive_me;
+	t_bool			satisfied_me;
+	pthread_mutex_t	fork_l;
+	pthread_mutex_t	*fork_r;
+	t_table			*t;
 }	t_philo;
 
-// custom type to reduce code @ philo_life()
-typedef struct s_custom
-{
-	t_philo			*philo;
-	t_table			*table;
-}	t_custom;
+// // custom type to reduce code @ philo_life()
+// typedef struct s_custom
+// {
+// 	t_philo			*philo;
+// 	t_table			*table;
+// }	t_custom;
 
 // validate.c
 t_bool		validate_args(int ac, char **av);
@@ -115,6 +112,7 @@ t_bool		init_philos(t_table *table);
 void		*philo_life(void *arg);
 
 // actions.c
+void		forks(t_philo *philo);
 void		eat(t_philo *philo);
 void		ft_sleep(t_philo *philo);
 void		think(t_philo *philo);
@@ -143,7 +141,5 @@ int			ft_atoi(char *str);
 t_bool		ft_usleep(int hold);
 t_bool		free_all(t_table *table);
 
-// debug.c
-void		print_structs(t_table *table);
 
 #endif

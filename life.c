@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:25 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/18 17:31:30 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/22 20:36:45 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,28 @@ static void	start_eating(t_philo *philo, t_table *table, t_bool *run)
 {
 	while (check_philo(philo))
 	{
+		forks(philo);
 		eat(philo); // actualiza t->philos_done si is_satisfied(philo) retorna true_e
 		ft_sleep(philo);
 		think(philo);
 	}
-	while (*run || philo->table->philos_done <= philo->table->philos_n)
+	printf("going out \n");
+	while (*run)
+	{
+		pthread_mutex_lock(&philo->table->count);
+		if (philo->table->philos_done == philo->table->philos_n)
+		{
+			pthread_mutex_lock(&philo->table->stop_run);
+			philo->table->run = false_e;
+			pthread_mutex_unlock(&philo->table->stop_run);
+		}
+		pthread_mutex_unlock(&philo->table->count);
+	}
+	{
+		printf("IN START EATING LOOP 2 philo %d\n", philo->chair_num);
 		ft_usleep(50);
+	}
+	printf("OUT START EATING\n");
 }
 
 void	*philo_life(void *arg)
@@ -55,8 +71,5 @@ void	*philo_life(void *arg)
 	philo = (t_philo *)arg;
 	wait_others(philo->table);
 	start_life(philo);
-	// if (&philo->left_f == philo->right_f)
-	// 	lonely_life(philo);
-	// else
 	start_eating(philo, philo->table, &philo->table->run);
 }

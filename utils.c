@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:59 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/18 16:06:27 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/22 20:46:22 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ long long	time_now(void)
 	return (total_time);
 }
 
-long long	ustoms(long long t, long long t_z)
+long long	ustoms(long long last_record, long long time_zero)
 {
-	return ((t - t_z) / 1000);
+	return ((last_record - time_zero) / 1000);
 }
 
 int	ft_atoi(char *str)

@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/09 17:22:41 by mvisca            #+#    #+#              #
-#    Updated: 2024/01/18 17:31:50 by mvisca           ###   ########.fr        #
+#    Updated: 2024/01/22 21:39:00 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,6 @@ NAME			:= philo
 #-----------------------#
 
 SRCS			:=	actions.c		\
-					debug.c			\
 					error.c			\
 					init.c			\
 					join.c			\
@@ -57,7 +56,7 @@ H_FLAGS			:= -I.
 all: $(NAME)
 
 $(NAME): 
-	@$(CC) -g -fsanitize=thread $(H_FLAGS) $(SRCS) -o $(NAME)
+	@$(CC) -g $(H_FLAGS) $(SRCS) -o $(NAME)
 	@echo "$(BLUE)Building $(RED)$(NAME)"
 
 clean:

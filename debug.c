@@ -2,6 +2,7 @@
 
 void	print_structs(t_table *table)
 {
+	pthread_mutex_lock(&table->print);
 	printf("Table %p\n", table);
 	printf("Table->philos_n %d\n", table->philos_n);
 	int i = 0;
@@ -24,4 +25,9 @@ void	print_structs(t_table *table)
 	printf("Table->total meal %d\n", table->total_meals);
 	printf("Table->philos done %d\n", table->philos_done);
 	printf("Table->run %s\n", table->run ? "ture" : "false");
+	printf("Table->count mutex %p\n", &table->count);
+	printf("Table->print mutex %p\n", &table->print);
+	printf("Table->stop_run mutex %p\n", &table->stop_run);
+	printf("Table->time mutex %p\n", &table->time);
+	pthread_mutex_unlock(&table->print);
 }
