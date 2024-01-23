@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:23:04 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/22 20:21:02 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/23 02:28:48 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,39 +50,37 @@ t_bool	validate_chars(char  **str)
 	return (true_e);
 }
 
-t_bool	check_philo(t_philo *philo)
+t_bool	is_hungry(t_philo *philo)
 {
-	return (is_alive(philo) && !is_satisfied(philo));
+	if (philo->hungry_me && !philo->meals_due)
+	{
+		pthread_mutex_lock(&philo->t->use_meals);
+		philo->t->hungry_count--;
+		pthread_mutex_unlock(&philo->t->use_meals);
+		philo->hungry_me = false_e;
+	}	
+	return (philo->hungry_me);
 }
 
 t_bool	is_alive(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->table->stop_run);
-	if (philo->table->run)
-	{
-		if (time_now() - philo->last_meal < philo->table->time_die)
-		{
-			pthread_mutex_unlock(&philo->table->stop_run);
-			return (true_e);
-		}
-		philo->table->run = false_e;
-		print_die(philo);
-	}
-	pthread_mutex_unlock(&philo->table->stop_run);
-	return (false_e);
+	if (!philo->t->alive_all)
+		return (false_e);
+	pthread_mutex_lock(&philo->t->use_time);
+	if (time_now() - philo->meal_last >= philo->t->die_time)
+		philo->alive_me = false_e;
+	pthread_mutex_unlock(&philo->t->use_time);
+	return (philo->alive_me);
 }
 
-t_bool	is_satisfied(t_philo *philo)
+t_bool	check_philo(t_philo *philo)
 {
-	t_bool	sat;
+	
+	is_hungry(philo);
+	is_alive(philo);
+	pthread_mutex_lock(&philo->t->use_alive);
+	philo->t->alive_all *= philo->alive_me;
+	pthread_mutex_unlock(&philo->t->use_alive);
 
-	sat = false_e;
-	pthread_mutex_lock(&philo->table->count);
-	if (philo->table->total_meals > 0)
-	{
-		if (philo->meals_count >= philo->table->total_meals)
-			sat = true_e;
-	}
-	pthread_mutex_unlock(&philo->table->count);
-	return (sat);
+	return (philo->hungry_me * philo->t->alive_all);
 }

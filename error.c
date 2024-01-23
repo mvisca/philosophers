@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:21:38 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/16 10:03:04 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/23 02:35:31 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,18 @@ t_bool	print_mutexinierror(t_table *table)
 {
 	int	n;
 
-	pthread_mutex_destroy(&table->count);
-	pthread_mutex_destroy(&table->print);
-	pthread_mutex_destroy(&table->stop_run);
-	pthread_mutex_destroy(&table->time);
+	pthread_mutex_destroy(&table->use_alive);
+	pthread_mutex_destroy(&table->use_hungry);
+	pthread_mutex_destroy(&table->use_meals);
+	pthread_mutex_destroy(&table->use_print);
+	pthread_mutex_destroy(&table->use_time);
 	printf("Ups! Error while initializing mutex\n");
 	if (table->philos)
 	{
 		n = 0;
 		while(n < table->philos_n)
 		{
-			pthread_mutex_destroy(&table->philos[n].left_f);
+			pthread_mutex_destroy(&table->philos[n].fork_l);
 			n++;
 		}
 	}

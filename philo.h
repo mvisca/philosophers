@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:49 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/22 21:55:24 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/23 02:36:59 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,11 @@ typedef struct s_table
 	int				meals_target;
 	long long		time_zero;
 	t_bool			alive_all;
-	t_bool			satisfied_all;
-	int				satisfied_count;
+	t_bool			hungry_count;
 	pthread_mutex_t	use_alive;
 	pthread_mutex_t	use_meals;
 	pthread_mutex_t	use_print;
-	pthread_mutex_t	use_satisfied;
+	pthread_mutex_t	use_hungry;
 	pthread_mutex_t	use_time;
 	struct s_philo	*philos;
 }	t_table;
@@ -81,10 +80,10 @@ typedef struct s_philo
 {
 	pthread_t		philo_thread;
 	int				philo_n;
-	int				meal_count;
+	int				meals_due;
 	long long		meal_last;
 	t_bool			alive_me;
-	t_bool			satisfied_me;
+	t_bool			hungry_me;
 	pthread_mutex_t	fork_l;
 	pthread_mutex_t	*fork_r;
 	t_table			*t;
@@ -101,7 +100,7 @@ typedef struct s_philo
 t_bool		validate_args(int ac, char **av);
 t_bool		validate_chars(char **str);
 t_bool		is_alive(t_philo *philo);
-t_bool		is_satisfied(t_philo *philo);
+t_bool		is_hungry(t_philo *philo);
 t_bool		check_philo(t_philo *philo);
 
 // init.c
@@ -112,12 +111,13 @@ t_bool		init_philos(t_table *table);
 void		*philo_life(void *arg);
 
 // actions.c
-void		forks(t_philo *philo);
-void		eat(t_philo *philo);
-void		ft_sleep(t_philo *philo);
-void		think(t_philo *philo);
+void		philo_fork(t_philo *philo);
+void		philo_eat(t_philo *philo);
+void		philo_sleep(t_philo *philo);
+void		philo_think(t_philo *philo);
 
 // join.c
+void		philo_alone(t_philo *philo);
 t_bool		join_philos(t_table *table);
 
 // error.c

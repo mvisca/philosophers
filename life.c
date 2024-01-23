@@ -6,62 +6,43 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:25 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/22 20:36:45 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/23 02:43:20 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-static void	wait_others(t_table *table)
+static void	wait_others(t_table *t)
 {
-	while (!pthread_mutex_lock(&table->time) && !table->time_zero)
+	t_bool	loop;
+
+	loop = true_e;
+	while (loop)
 	{
-		pthread_mutex_unlock(&table->time);
 		ft_usleep(50);
+		pthread_mutex_lock(&t->use_time);
+		if (t->time_zero != 0)
+			loop = false_e;
+		pthread_mutex_unlock(&t->use_time);
 	}
-	pthread_mutex_unlock(&table->time);
 }
 
-static void	start_life(t_philo *philo)
+static void	life_cycle(t_philo *philo, t_table *t)
 {
-	pthread_mutex_lock(&philo->table->time);
-	philo->last_meal = philo->table->time_zero;
-	pthread_mutex_unlock(&philo->table->time);
-}
-
-// static void	lonely_life(t_philo *philo)
-// {
-// 	print_fork(philo);
-// 	ft_usleep(philo->table->time_die);
-// 	print_die(philo);
-// }
-
-static void	start_eating(t_philo *philo, t_table *table, t_bool *run)
-{
-	while (check_philo(philo))
+	if (&philo->fork_l == philo->fork_r)
+		philo_alone(philo);
+	while (check_philo(philo) && t->hungry_count)
 	{
-		forks(philo);
-		eat(philo); // actualiza t->philos_done si is_satisfied(philo) retorna true_e
-		ft_sleep(philo);
-		think(philo);
+		philo_fork(philo);
+		philo_eat(philo); 
+		philo_sleep(philo);
+		philo_think(philo);
 	}
-	printf("going out \n");
-	while (*run)
+	while (t->alive_all && t->hungry_count)
 	{
-		pthread_mutex_lock(&philo->table->count);
-		if (philo->table->philos_done == philo->table->philos_n)
-		{
-			pthread_mutex_lock(&philo->table->stop_run);
-			philo->table->run = false_e;
-			pthread_mutex_unlock(&philo->table->stop_run);
-		}
-		pthread_mutex_unlock(&philo->table->count);
+		philo->meal_last = time_now();
+		check_philo(philo);
 	}
-	{
-		printf("IN START EATING LOOP 2 philo %d\n", philo->chair_num);
-		ft_usleep(50);
-	}
-	printf("OUT START EATING\n");
 }
 
 void	*philo_life(void *arg)
@@ -69,7 +50,9 @@ void	*philo_life(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	wait_others(philo->table);
-	start_life(philo);
-	start_eating(philo, philo->table, &philo->table->run);
+	wait_others(philo->t);
+	pthread_mutex_lock(&philo->t->use_time);
+	philo->meal_last = philo->t->time_zero;
+	pthread_mutex_unlock(&philo->t->use_time);
+	life_cycle(philo, philo->t);
 }
