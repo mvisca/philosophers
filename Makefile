@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/09 17:22:41 by mvisca            #+#    #+#              #
-#    Updated: 2024/01/22 21:39:00 by mvisca           ###   ########.fr        #
+#    Updated: 2024/01/24 12:38:39 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ SRCS			:=	actions.c		\
 #-----------------------#
 
 CC				:= cc
-
+CC_FLAGS		:= -Wall -Wextra -Werror
 H_FLAGS			:= -I.
 
 #-----------------------#
@@ -56,7 +56,7 @@ H_FLAGS			:= -I.
 all: $(NAME)
 
 $(NAME): 
-	@$(CC) -g $(H_FLAGS) $(SRCS) -o $(NAME)
+	@$(CC) $(CC_FLAGS) -g $(H_FLAGS) $(SRCS) -o $(NAME)
 	@echo "$(BLUE)Building $(RED)$(NAME)"
 
 clean:

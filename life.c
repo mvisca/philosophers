@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:25 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/23 02:43:20 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/24 12:41:09 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,34 @@
 
 static void	wait_others(t_table *t)
 {
-	t_bool	loop;
+	long long	time;
 
-	loop = true_e;
-	while (loop)
+	while (1)
 	{
-		ft_usleep(50);
-		pthread_mutex_lock(&t->use_time);
-		if (t->time_zero != 0)
-			loop = false_e;
-		pthread_mutex_unlock(&t->use_time);
+//		pthread_mutex_lock(&t->mtx_run);
+		time = t->start_time;
+//		pthread_mutex_unlock(&t->mtx_run);
+		if (time != 0)
+			break ;
+		ft_usleep(20, t);
 	}
 }
 
-static void	life_cycle(t_philo *philo, t_table *t)
+static void	life_cycle(t_philo *philo)
 {
-	if (&philo->fork_l == philo->fork_r)
-		philo_alone(philo);
-	while (check_philo(philo) && t->hungry_count)
+	int	stop;
+
+	stop = 0;
+	while (!stop && !philo->t->dead_count)
 	{
-		philo_fork(philo);
-		philo_eat(philo); 
-		philo_sleep(philo);
-		philo_think(philo);
-	}
-	while (t->alive_all && t->hungry_count)
-	{
-		philo->meal_last = time_now();
-		check_philo(philo);
+		stop = philo_eat(philo);
+		if (!stop && !philo->t->dead_count)
+		{
+			print_sleep(philo);
+			ft_usleep(philo->t->sleep_time, philo->t);
+		}
+		if (!stop && !philo->t->dead_count)
+			print_think(philo);
 	}
 }
 
@@ -51,8 +51,9 @@ void	*philo_life(void *arg)
 
 	philo = (t_philo *)arg;
 	wait_others(philo->t);
-	pthread_mutex_lock(&philo->t->use_time);
-	philo->meal_last = philo->t->time_zero;
-	pthread_mutex_unlock(&philo->t->use_time);
-	life_cycle(philo, philo->t);
+	pthread_mutex_lock(&philo->t->mtx_run);
+	philo->last_meal = philo->t->start_time;
+	pthread_mutex_unlock(&philo->t->mtx_run);
+	life_cycle(philo);
+	return (NULL);
 }

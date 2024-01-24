@@ -6,58 +6,52 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 20:35:12 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/23 02:49:11 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/23 20:33:00 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	philo_fork(t_philo *philo)
+int	take_forks(t_philo *philo)
 {
-	pthread_mutex_t	*first;
-	pthread_mutex_t	*second;
-
-	first = &philo->fork_l;
-	second = philo->fork_r;
-	if (philo->philo_n % 2 == 0)
+	if (philo->chair % 2)
 	{
-		first = philo->fork_r;
-		second = &philo->fork_l;
-		ft_usleep(50);
+		pthread_mutex_lock(&philo->fork_l);
+		print_fork(philo);
+		if (&philo->fork_l == philo->fork_r)
+			return (1);
+		pthread_mutex_lock(philo->fork_r);
+		print_fork(philo);
+		return (0);
 	}
-	pthread_mutex_lock(first);
-	print_fork(philo);
-	pthread_mutex_lock(second);
-	print_fork(philo);
+	else
+	{
+		pthread_mutex_lock(philo->fork_r);
+		print_fork(philo);
+		pthread_mutex_lock(&philo->fork_l);
+		print_fork(philo);
+	}
+	return (0);
 }
 
-void	philo_eat(t_philo *philo)
+int	philo_eat(t_philo *philo)
 {
-	if (!check_philo(philo))
-		return ;
-	philo->meal_last = time_now();
-	pthread_mutex_lock(&philo->t->use_time);
-	ft_usleep(philo->t->eat_time);
-	pthread_mutex_unlock(&philo->t->use_time);
+	if (take_forks(philo))
+		return (1);
+	pthread_mutex_lock(&philo->t->mtx_run);
+	philo->last_meal = time_now();
+	print_eat(philo);
+	pthread_mutex_unlock(&philo->t->mtx_run);
+	ft_usleep(philo->t->eat_time, philo->t);
+	philo->meals_count += 1;
 	pthread_mutex_unlock(&philo->fork_l);
 	pthread_mutex_unlock(philo->fork_r);
-	print_eat(philo);
-	philo->meals_due--;
-}
-
-void	philo_sleep(t_philo *philo)
-{
-	if (!check_philo(philo))
-		return ;
-	print_sleep(philo);
-	pthread_mutex_lock(&philo->t->use_time);
-	ft_usleep(philo->t->sleep_time);	
-	pthread_mutex_unlock(&philo->t->use_time);
-}
-
-void	philo_think(t_philo *philo)
-{
-	if (!check_philo(philo))
-		return ;
-	print_think(philo);
+	if (philo->meals_count >= philo->t->max_meals)
+	{
+		pthread_mutex_lock(&philo->t->mtx_run);
+		philo->t->hungry_count -= 1;
+		pthread_mutex_unlock(&philo->t->mtx_run);
+		return (1);
+	}
+	return (0);
 }

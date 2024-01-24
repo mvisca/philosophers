@@ -6,22 +6,13 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:20 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/23 02:34:13 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/23 19:12:51 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-void	philo_alone(t_philo *philo)
-{
-	print_fork(philo);
-	ft_usleep(philo->t->die_time);
-	print_die(philo);
-	philo->alive_me = false_e;
-	philo->t->alive_all = false_e;
-}
-
-t_bool	join_philos(t_table *table)
+int join_philos(t_table *table)
 {
 	int	n;
 
@@ -33,10 +24,10 @@ t_bool	join_philos(t_table *table)
 		{
 			printf("Error in pthread_join at index %d\n", n);
 			free_all(table);
-			return (false_e);
+			return (0);
 		}
 		printf("hilo recogido %d\n", n);
 		n++;
 	}
-	return (true_e);
+	return (1);
 }
