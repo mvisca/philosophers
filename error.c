@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:21:38 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/24 18:35:08 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/24 18:40:16 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ int	print_charerror(void)
 	return (1);
 }
 
-int	print_mallocerror(t_table *table)
+int	print_mallocerror(void)
 {
 	printf("Ups! Error while allocating memory.\n");
 	return (1);
 }
 
-int	print_mutexinierror(t_table *table)
+int	print_mutexinierror(void)
 {
 	printf("Ups! Error while initializing mutex\n");
 	return (1);

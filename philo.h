@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:49 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/24 18:34:06 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/24 18:40:36 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,8 @@ int					philo_eat(t_philo *philo);
 // error.c
 int					print_argserror(void); // in file
 int					print_charerror(void); // in file
-int					print_mallocerror(t_table *table); // in filie
-int					print_mutexinierror(t_table *table); // in file
+int					print_mallocerror(void); // in filie
+int					print_mutexinierror(void); // in file
 int					print_maxerror(void); // in file
 
 // print.c
