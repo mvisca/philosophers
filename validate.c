@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:23:04 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/24 13:04:20 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/24 18:32:25 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ int	validate_args(int ac, char **av)
 	if (validate_chars(av))
 		return (21);
 	if (ft_atoi(av[11]) > 200 || ft_atoi(av[1]) < 1)
-		return (printf("error en el min max de philos, mayor que 0 o menor que 201\n"));
+		return (printf("error: min 1, max 200\n"));
 	if (ac == 6 && ft_atoi(av[5]) == 0)
 		return (printf("error en el número de comidas, es cero\n"));
 	return (0);
 }
 
-int	validate_chars(char  **str)
+int	validate_chars(char **str)
 {
 	int	i;
 	int	j;
@@ -50,56 +50,4 @@ int	validate_chars(char  **str)
 		i++;
 	}
 	return (0);
-}
-
-int	dead_philo(t_philo *philo)
-{
-	if (time_now() - philo->last_meal >= philo->t->die_time)
-	{
-		print_die(philo);
-		philo->t->dead_count += 1;
-	}
-	return (philo->t->dead_count);
-}
-
-static int	get_mtx_run(t_table *t, int op)
-{
-	int count;
-
-	if (op == HUNGRY)
-	{
-		pthread_mutex_lock(&t->mtx_run);
-		count = t->hungry_count;
-		pthread_mutex_unlock(&t->mtx_run);
-	}
-	else
-	{
-		pthread_mutex_lock(&t->mtx_run);
-		count = t->dead_count;
-		pthread_mutex_unlock(&t->mtx_run);
-	}
-	return (count);
-}
-
-void	running(t_table *t)
-{
-	int	i;
-	int	count;
-
-	count = get_mtx_run(t, HUNGRY);
-	while (count != 0)
-	{
-		i = 0;
-		count = get_mtx_run(t, DEAD);
-		while (i < t->philos_n && count == 0)
-		{
-			pthread_mutex_lock(&t->mtx_run);
-			dead_philo(&t->philos[i++]);
-			count = t->dead_count;
-			pthread_mutex_unlock(&t->mtx_run);
-		}
-		if (count != 0)
-			break ;
-		count = get_mtx_run(t, HUNGRY);
-	}
 }

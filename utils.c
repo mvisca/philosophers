@@ -6,22 +6,11 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:59 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/23 20:33:37 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/24 18:29:27 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
-
-long long	time_now(void)
-{
-	struct timeval	time;
-	long long		total_time;
-
-	if (gettimeofday(&time, NULL) != 0)
-		printf("Error while reading time\n");
-	total_time = (time.tv_sec * 1000) + (time.tv_usec / 1000);
-	return (total_time);
-}
 
 int	ft_atoi(char *str)
 {
@@ -42,33 +31,71 @@ int	ft_atoi(char *str)
 	return ((int) result);
 }
 
-int	ft_usleep(int hold, t_table *t)
-{
-	long long	starting_time;
-	int			dead;
-
-	starting_time = time_now();
-	while (time_now() - starting_time < hold)
-	{
-		usleep(10);
-		pthread_mutex_lock(&t->mtx_run);
-		dead = t->dead_count;
-		pthread_mutex_unlock(&t->mtx_run);
-		if (dead)
-			break ;
-	}
-	return (1);
-}
-
 int	free_all(t_table *table)
 {
 	int	n;
 
-	pthread_mutex_destroy(&table->mtx_run);
+	pthread_mutex_destroy(&table->mtx_dead);
 	pthread_mutex_destroy(&table->mtx_print);
+	pthread_mutex_destroy(&table->mtx_time);
+	pthread_mutex_destroy(&table->mtx_hungry);
 	n = 0;
 	while (n < table->philos_n)
 		pthread_mutex_destroy(&table->philos[n++].fork_l);
 	free(table->philos);
 	return (0);
+}
+
+static int	get_safe_aux(t_table *t, int op)
+{
+	int	count;
+
+	if (op == DEAD)
+	{
+		pthread_mutex_lock(&t->mtx_dead);
+		count = t->dead_count;
+		pthread_mutex_unlock(&t->mtx_dead);
+	}
+	if (op == DIE)
+	{
+		pthread_mutex_lock(&t->mtx_time);
+		count = t->die_time;
+		pthread_mutex_unlock(&t->mtx_time);
+	}
+	if (op == START)
+	{
+		pthread_mutex_lock(&t->mtx_time);
+		count = t->start_time;
+		pthread_mutex_unlock(&t->mtx_time);
+	}
+	else
+		count = -1;
+	return (count);
+}
+
+int	get_safe(t_table *t, int op)
+{
+	int	count;
+
+	if (op == HUNGRY)
+	{
+		pthread_mutex_lock(&t->mtx_hungry);
+		count = t->hungry_count;
+		pthread_mutex_unlock(&t->mtx_hungry);
+	}
+	else if (op == EAT)
+	{
+		pthread_mutex_lock(&t->mtx_time);
+		count = t->eat_time;
+		pthread_mutex_unlock(&t->mtx_time);
+	}
+	else if (op == SLEEP)
+	{
+		pthread_mutex_lock(&t->mtx_time);
+		count = t->sleep_time;
+		pthread_mutex_unlock(&t->mtx_time);
+	}
+	else
+		count = get_safe_aux(t, op);
+	return (count);
 }

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:49 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/24 12:40:58 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/24 18:34:06 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,20 @@
 // use for typeoverflow control
 # include <limits.h>
 
-# define DEAD 0
-# define HUNGRY 1
+# define DEAD	0
+# define DIE	1
+# define EAT	2
+# define HUNGRY	3
+# define SLEEP	4
+# define START	5
 
 // custom type to protect mutex @ init_table()  
 typedef struct s_ints
 {
-	int				run;
+	int				dead;
 	int				print;
+	int				time;
+	int				hungry;
 }	t_ints;
 
 // prototype to nest s_philo in s_table
@@ -62,7 +68,9 @@ typedef struct s_table
 	int				dead_count;
 	int				hungry_count;
 	pthread_mutex_t	mtx_print;
-	pthread_mutex_t	mtx_run;
+	pthread_mutex_t	mtx_dead;
+	pthread_mutex_t	mtx_time;
+	pthread_mutex_t	mtx_hungry;
 	struct s_philo	*philos;
 }	t_table;
 
@@ -80,25 +88,18 @@ typedef struct s_philo
 // validate.c
 int					validate_args(int ac, char **av);
 int					validate_chars(char **str);
-int					dead_philo(t_philo *philo);
-void				running(t_table *table);
 
 // init.c
 int					init_table(int ac, char **av, t_table *table);
 int					init_philos(t_table *table);
 
 // life.c
+int					dead_philo(t_philo *philo);
+void				running(t_table *table);
 void				*philo_life(void *arg);
 
 // actions.c
-int					philo_fork(t_philo *philo);
 int					philo_eat(t_philo *philo);
-int					philo_sleep(t_philo *philo);
-int					philo_think(t_philo *philo);
-
-// join.c
-void				philo_alone(t_philo *philo);
-int					join_philos(t_table *table);
 
 // error.c
 int					print_argserror(void); // in file
@@ -115,10 +116,13 @@ int					print_think(t_philo *philo);
 int					print_die(t_philo *philo);
 
 // utils.c
-long long			time_now(void);
 int					ft_atoi(char *str);
-int					ft_usleep(int hold, t_table *t);
 int					free_all(t_table *table);
+int					get_safe(t_table *t, int op);
 
+// utils_time.c
+long long			get_time(t_table *t);
+long long			time_now(void);
+int					ft_usleep(int hold, t_table *t);
 
 #endif
