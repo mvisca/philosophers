@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/09 17:22:41 by mvisca            #+#    #+#              #
-#    Updated: 2024/01/24 16:56:07 by mvisca           ###   ########.fr        #
+#    Updated: 2024/01/24 18:44:48 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,14 +32,14 @@ NAME			:= philo
 #-----------------------#
 
 SRCS			:=	actions.c		\
-					error.c			\
 					init.c			\
+					init_error.c	\
+					init_validate.c	\
 					life.c			\
 					main.c			\
 					print.c			\
 					utils.c			\
-					utils_time.c	\
-					validate.c
+					utils_time.c
 
 #-----------------------#
 #	INGREDIENTES		#

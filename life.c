@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:25 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/24 18:33:09 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/24 18:46:45 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,15 @@ int	dead_philo(t_philo *philo)
 	return (philo->t->dead_count);
 }
 
-static void	life_cycle(t_philo *philo)
+void	*philo_life(void *arg)
 {
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
+	printf("antes de life cyle %d\n", philo->chair);
 	while (!get_safe(philo->t, DEAD) && get_safe(philo->t, HUNGRY) != 0)
 	{
+		printf("en bucle life cyle %d\n", philo->chair);
 		if (!philo_eat(philo))
 		{
 			print_sleep(philo);
@@ -51,15 +56,6 @@ static void	life_cycle(t_philo *philo)
 				print_think(philo);
 		}
 	}
-}
-
-void	*philo_life(void *arg)
-{
-	t_philo	*philo;
-
-	philo = (t_philo *)arg;
-	printf("antes de life cyle %d\n", philo->chair);
-	life_cycle(philo);
 	printf("después de life cyle %d\n", philo->chair);
 	return (NULL);
 }

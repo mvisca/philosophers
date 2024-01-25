@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:59 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/24 18:29:27 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/24 18:50:50 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,21 @@ static int	get_safe_aux(t_table *t, int op)
 		pthread_mutex_lock(&t->mtx_dead);
 		count = t->dead_count;
 		pthread_mutex_unlock(&t->mtx_dead);
+		printf("get safe DEAD %d\n", count);
 	}
 	if (op == DIE)
 	{
 		pthread_mutex_lock(&t->mtx_time);
 		count = t->die_time;
 		pthread_mutex_unlock(&t->mtx_time);
+		printf("get safe DEAD %d\n", count);
 	}
 	if (op == START)
 	{
 		pthread_mutex_lock(&t->mtx_time);
 		count = t->start_time;
 		pthread_mutex_unlock(&t->mtx_time);
+		printf("get safe START %d\n", count);
 	}
 	else
 		count = -1;
@@ -82,18 +85,21 @@ int	get_safe(t_table *t, int op)
 		pthread_mutex_lock(&t->mtx_hungry);
 		count = t->hungry_count;
 		pthread_mutex_unlock(&t->mtx_hungry);
+		printf("get safe HUNGRY %d\n", count);
 	}
 	else if (op == EAT)
 	{
 		pthread_mutex_lock(&t->mtx_time);
 		count = t->eat_time;
 		pthread_mutex_unlock(&t->mtx_time);
+		printf("get safe EAT %d\n", count);
 	}
 	else if (op == SLEEP)
 	{
 		pthread_mutex_lock(&t->mtx_time);
 		count = t->sleep_time;
 		pthread_mutex_unlock(&t->mtx_time);
+		printf("get safe SLEEP %d\n", count);
 	}
 	else
 		count = get_safe_aux(t, op);

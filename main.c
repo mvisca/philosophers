@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:32 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/24 18:28:26 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/24 18:57:13 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	running(t_table *t)
 
 int	main(int ac, char **av)
 {
+	printf("now start %lld\n", time_now());
 	t_table	table;
 
 	if (validate_args(ac, av))
@@ -69,6 +70,8 @@ int	main(int ac, char **av)
 	running(&table);
 	printf("PASS TABLE\n");
 	join_philos(&table);
+	printf("now end %lld\n", time_now());
+	printf("execution %lld\n", get_time(&table));
 	free_all(&table);
 	return (0);
 }
