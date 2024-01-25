@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:49 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/24 18:40:36 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/25 14:51:50 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,27 @@
 // use for typeoverflow control
 # include <limits.h>
 
-# define DEAD	0
-# define DIE	1
-# define EAT	2
-# define HUNGRY	3
-# define SLEEP	4
-# define START	5
+# define CHAIRS	0
+# define DEAD	1
+# define DIE	2
+# define EAT	3
+# define HUNGRY	4
+# define MEALS	5
+# define SLEEP	6
+# define START	7
 
 // custom type to protect mutex @ init_table()  
 typedef struct s_ints
 {
-	int				dead;
-	int				print;
-	int				time;
-	int				hungry;
+	int				ch;
+	int				de;
+	int				di;
+	int				ea;
+	int				hu;
+	int				me;
+	int				sl;
+	int				st;
+	int				pr;
 }	t_ints;
 
 // prototype to nest s_philo in s_table
@@ -67,10 +74,15 @@ typedef struct s_table
 	long long		start_time;
 	int				dead_count;
 	int				hungry_count;
-	pthread_mutex_t	mtx_print;
+	pthread_mutex_t	mtx_chairs;
 	pthread_mutex_t	mtx_dead;
-	pthread_mutex_t	mtx_time;
+	pthread_mutex_t	mtx_die;
+	pthread_mutex_t	mtx_eat;
 	pthread_mutex_t	mtx_hungry;
+	pthread_mutex_t	mtx_meals;
+	pthread_mutex_t	mtx_sleep;
+	pthread_mutex_t	mtx_start;
+	pthread_mutex_t	mtx_print;
 	struct s_philo	*philos;
 }	t_table;
 
@@ -115,14 +127,16 @@ int					print_sleep(t_philo *philo);
 int					print_think(t_philo *philo);
 int					print_die(t_philo *philo);
 
+// getters.c
+long long			get_safe(t_table *t, int op);
+
 // utils.c
 int					ft_atoi(char *str);
 int					free_all(t_table *table);
-int					get_safe(t_table *t, int op);
+int					ft_usleep(int hold, t_table *t);
 
 // utils_time.c
 long long			get_time(t_table *t);
 long long			time_now(void);
-int					ft_usleep(int hold, t_table *t);
 
 #endif

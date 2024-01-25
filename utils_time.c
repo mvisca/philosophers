@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:54:17 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/24 18:30:05 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/25 14:47:31 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,7 @@
 
 long long	get_time(t_table *t)
 {
-	long long	time;
-
-	pthread_mutex_lock(&t->mtx_time);
-	time = time_now() - t->start_time;
-	pthread_mutex_unlock(&t->mtx_time);
-	return (time);
+	return (time_now() - get_safe(t, START));
 }
 
 long long	time_now(void)
@@ -36,15 +31,11 @@ long long	time_now(void)
 int	ft_usleep(int hold, t_table *t)
 {
 	long long	starting_time;
-	int			dead;
 
 	starting_time = time_now();
 	while (time_now() - starting_time < hold)
 	{
-		pthread_mutex_lock(&t->mtx_dead);
-		dead = t->dead_count;
-		pthread_mutex_unlock(&t->mtx_dead);
-		if (dead != 0)
+		if (get_safe(t, DEAD) != 0)
 			break ;
 		usleep(10);
 	}

@@ -6,32 +6,45 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:21:51 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/24 18:26:34 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/25 14:53:29 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	init_table(int ac, char **av, t_table *table)
+static int	init_mutex(t_table *table)
 {
 	t_ints	i;
 
-	table->philos_n = ft_atoi(av[1]);
-	table->die_time = ft_atoi(av[2]);
-	table->eat_time = ft_atoi(av[3]);
-	table->sleep_time = ft_atoi(av[4]);
-	table->max_meals = INT_MAX;
-	if (ac == 6)
-		table->max_meals = ft_atoi(av[5]);
-	table->start_time = time_now();
-	table->dead_count = 0;
-	table->hungry_count = table->philos_n;
-	i.print = pthread_mutex_init(&table->mtx_print, NULL);
-	i.dead = pthread_mutex_init(&table->mtx_dead, NULL);
-	i.time = pthread_mutex_init(&table->mtx_time, NULL);
-	i.hungry = pthread_mutex_init(&table->mtx_hungry, NULL);
-	if (i.print != 0 || i.dead != 0 || i.time != 0 || i.hungry != 0)
+	i.ch = pthread_mutex_init(&table->mtx_chairs, NULL);
+	i.de = pthread_mutex_init(&table->mtx_dead, NULL);
+	i.di = pthread_mutex_init(&table->mtx_die, NULL);
+	i.ea = pthread_mutex_init(&table->mtx_eat, NULL);
+	i.hu = pthread_mutex_init(&table->mtx_hungry, NULL);
+	i.me = pthread_mutex_init(&table->mtx_meals, NULL);
+	i.sl = pthread_mutex_init(&table->mtx_print, NULL);
+	i.st = pthread_mutex_init(&table->mtx_sleep, NULL);
+	i.pr = pthread_mutex_init(&table->mtx_start, NULL);
+	if (i.ch != 0 || i.de != 0 || i.di != 0 || i.ea != 0 \
+		|| i.hu != 0 || i.me != 0 || i.sl != 0 || i.st != 0 || i.pr != 0)
 		return (printf("error en creacion de mutex\n"));
+	return (0);
+}
+
+int	init_table(int ac, char **av, t_table *table)
+{
+	table->philos_n = ft_atoi(av[1]); // CHAIRS_
+	table->die_time = ft_atoi(av[2]); // DIE_
+	table->eat_time = ft_atoi(av[3]); // EAT_
+	table->sleep_time = ft_atoi(av[4]); // SLEEP_
+	table->max_meals = INT_MAX; // MEALS_
+	if (ac == 6)
+		table->max_meals = ft_atoi(av[5]); // MEALS_
+	table->start_time = time_now(); // START_
+	table->dead_count = 0; // DEAD_
+	table->hungry_count = table->philos_n; // HUNGRY_
+	if (init_mutex(table) != 0)
+		return (printf("error init mutexes"));
 	table->philos = (t_philo *)malloc(sizeof(t_philo) * (table->philos_n));
 	if (!table->philos)
 		return (printf("malloc error init philo\n"));
@@ -44,7 +57,7 @@ int	init_philos(t_table *table)
 	t_philo	*philo;
 
 	n = 0;
-	while (n < table->philos_n)
+	while (n < get_safe(table, CHAIRS))
 	{
 		philo = &table->philos[n];
 		philo->t = table;

@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/09 17:22:41 by mvisca            #+#    #+#              #
-#    Updated: 2024/01/24 18:44:48 by mvisca           ###   ########.fr        #
+#    Updated: 2024/01/25 13:02:25 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ NAME			:= philo
 #-----------------------#
 
 SRCS			:=	actions.c		\
+					getters.c		\
 					init.c			\
 					init_error.c	\
 					init_validate.c	\

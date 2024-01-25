@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:32 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/24 18:57:13 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/25 14:32:24 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,23 +35,20 @@ static int	join_philos(t_table *table)
 void	running(t_table *t)
 {
 	int	i;
-	int	count;
 
-	count = get_safe(t, HUNGRY);
-	while (count != 0)
+	while (get_safe(t, HUNGRY) > 0 && get_safe(t, DEAD) == 0)
 	{
 		i = 0;
-		count = get_safe(t, DEAD);
-		while (i < t->philos_n && count == 0)
+		while (i < (int) get_safe(t, CHAIRS))
 		{
-			pthread_mutex_lock(&t->mtx_dead);
-			dead_philo(&t->philos[i++]);
-			count = t->dead_count;
-			pthread_mutex_unlock(&t->mtx_dead);
+			if (time_now() - t->philos[i].last_meal > (int) get_safe(t, DIE))
+			{
+				pthread_mutex_lock(&t->mtx_dead);
+				dead_philo(&t->philos[i]);
+				pthread_mutex_unlock(&t->mtx_dead);
+				break ;
+			}
 		}
-		if (count != 0)
-			break ;
-		count = get_safe(t, HUNGRY);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:25 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/24 18:46:45 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/25 14:24:42 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,11 @@
 
 int	dead_philo(t_philo *philo)
 {
-	if (get_time(philo->t) - philo->last_meal >= philo->t->die_time)
-	{
-		print_die(philo);
-		philo->t->dead_count += 1;
-	}
-	return (philo->t->dead_count);
+	print_die(philo);
+	pthread_mutex_lock(&philo->t->mtx_dead);
+	philo->t->dead_count += 1;
+	pthread_mutex_unlock(&philo->t->mtx_dead);
+	return (get_safe(philo->t, DEAD));
 }
 
 void	*philo_life(void *arg)
@@ -47,6 +46,11 @@ void	*philo_life(void *arg)
 	printf("antes de life cyle %d\n", philo->chair);
 	while (!get_safe(philo->t, DEAD) && get_safe(philo->t, HUNGRY) != 0)
 	{
+		if (philo->chair == 1)
+		{
+			printf(">> Get safe DEAD %d\n", (int)get_safe(philo->t, DEAD));
+			printf(">> Get safe HUNGRY %d\n", (int)get_safe(philo->t, HUNGRY));
+		}
 		printf("en bucle life cyle %d\n", philo->chair);
 		if (!philo_eat(philo))
 		{
