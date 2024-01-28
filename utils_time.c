@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:54:17 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/25 14:47:31 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/27 14:57:34 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,19 @@
 
 long long	get_time(t_table *t)
 {
-	return (time_now() - get_safe(t, START));
+	return (time_now(t) - get_safe(t, START, 0));
 }
 
-long long	time_now(void)
+long long	time_now(t_table *t)
 {
 	struct timeval	time;
 	long long		total_time;
 
+	pthread_mutex_lock(&t->mtx_now);
 	if (gettimeofday(&time, NULL) != 0)
 		printf("Error while reading time\n");
 	total_time = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+	pthread_mutex_unlock(&t->mtx_now);
 	return (total_time);
 }
 
@@ -32,12 +34,21 @@ int	ft_usleep(int hold, t_table *t)
 {
 	long long	starting_time;
 
-	starting_time = time_now();
-	while (time_now() - starting_time < hold)
+	starting_time = time_now(t);
+	while (get_safe(t, COUNT_DEAD, 0) == 0)
 	{
-		if (get_safe(t, DEAD) != 0)
+		if (time_now(t) - starting_time > hold)
 			break ;
-		usleep(10);
+		usleep(50);
 	}
+	// long long	starting_time;
+
+	// starting_time = time_now(t);	
+	// while (time_now(t) - starting_time < (long long) hold)
+	// {
+	// 	if (get_safe(t, COUNT_DEAD, NULL) != 0)
+	// 		break ;
+	// 	sleep(200);
+	// }
 	return (0);
 }

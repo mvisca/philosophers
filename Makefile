@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/09 17:22:41 by mvisca            #+#    #+#              #
-#    Updated: 2024/01/25 13:02:25 by mvisca           ###   ########.fr        #
+#    Updated: 2024/01/27 13:00:47 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,8 +31,7 @@ NAME			:= philo
 #	SRC					#
 #-----------------------#
 
-SRCS			:=	actions.c		\
-					getters.c		\
+SRCS			:=	getters.c		\
 					init.c			\
 					init_error.c	\
 					init_validate.c	\
@@ -57,7 +56,7 @@ H_FLAGS			:= -I.
 all: $(NAME)
 
 $(NAME): 
-	@$(CC) $(CC_FLAGS) -g $(H_FLAGS) $(SRCS) -o $(NAME)
+	@$(CC) $(CC_FLAGS) -g -fsanitize=address $(H_FLAGS) $(SRCS) -o $(NAME)
 	@echo "$(BLUE)Building $(RED)$(NAME)"
 
 clean:

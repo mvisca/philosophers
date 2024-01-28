@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validate.c                                         :+:      :+:    :+:   */
+/*   init_validate.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:23:04 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/24 18:32:25 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/26 19:28:31 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	validate_chars(char **str)
 		while (str[i][j])
 		{
 			if ((str[i][j] < '0' || str[i][j] > '9') || !str[i][0])
-				return (printf("error validando chars - char no valido\n"));
+				return (printf("error validando chars - char no valido, incluidos espacios después del argumento\n"));
 			j++;
 		}
 		i++;

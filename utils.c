@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:59 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/25 14:52:14 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/27 14:57:49 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,20 @@ int	ft_atoi(char *str)
 int	free_all(t_table *table)
 {
 	int	n;
-
+	
 	pthread_mutex_destroy(&table->mtx_chairs);
 	pthread_mutex_destroy(&table->mtx_dead);
+	pthread_mutex_destroy(&table->mtx_hungry);
+	pthread_mutex_destroy(&table->mtx_end);
+	pthread_mutex_destroy(&table->mtx_philo_meal);
 	pthread_mutex_destroy(&table->mtx_die);
 	pthread_mutex_destroy(&table->mtx_eat);
-	pthread_mutex_destroy(&table->mtx_hungry);
 	pthread_mutex_destroy(&table->mtx_meals);
-	pthread_mutex_destroy(&table->mtx_print);
-	pthread_mutex_destroy(&table->mtx_sleep);
 	pthread_mutex_destroy(&table->mtx_start);
+	pthread_mutex_destroy(&table->mtx_sleep);
+	pthread_mutex_destroy(&table->mtx_print);
 	n = 0;
-	while (n < table->philos_n)
+	while (table->philos && n < get_safe(table, COUNT_CHAIRS, 0))
 		pthread_mutex_destroy(&table->philos[n++].fork_l);
 	free(table->philos);
 	return (0);

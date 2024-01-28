@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:32 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/25 14:32:24 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/27 14:58:34 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,58 +17,62 @@ static int	join_philos(t_table *table)
 	int	n;
 
 	n = 0;
-	printf("in join\n");
-	while (n < table->philos_n)
+	while (n < (int) get_safe(table, COUNT_CHAIRS, 0))
 	{
 		if (pthread_join(table->philos[n].philo_thread, NULL) != 0)
 		{
 			printf("Error in pthread_join at index %d\n", n);
 			free_all(table);
-			return (0);
+			return (1);
 		}
 		printf("hilo recogido %d\n", n);
 		n++;
 	}
-	return (1);
+	return (0);
 }
 
 void	running(t_table *t)
 {
 	int	i;
 
-	while (get_safe(t, HUNGRY) > 0 && get_safe(t, DEAD) == 0)
+	printf("activa running\n");
+	pthread_mutex_lock(&t->mtx_end);
+	while ((int) get_safe(t, COUNT_HUNGRY, 0) != 0 \
+	&& get_safe(t, COUNT_DEAD, 0) == 0)
 	{
 		i = 0;
-		while (i < (int) get_safe(t, CHAIRS))
+		while (i < (int) get_safe(t, COUNT_CHAIRS, 0))
 		{
-			if (time_now() - t->philos[i].last_meal > (int) get_safe(t, DIE))
+			if (time_now(t) - t->philos[i].last_meal > (int) get_safe(t, TIME_DIE, 0))
 			{
 				pthread_mutex_lock(&t->mtx_dead);
-				dead_philo(&t->philos[i]);
+				philo_die(&t->philos[i]); // DEAD == 1
 				pthread_mutex_unlock(&t->mtx_dead);
 				break ;
 			}
+			i++;
 		}
 	}
+	printf("saliendo de running\n");
+
+	ft_usleep((int) get_safe(t, TIME_DIE, 0), t);
+	pthread_mutex_unlock(&t->mtx_end);
 }
+
 
 int	main(int ac, char **av)
 {
-	printf("now start %lld\n", time_now());
 	t_table	table;
 
 	if (validate_args(ac, av))
 		return (11);
 	if (init_table(ac, av, &table) || init_philos(&table))
 	{
-		free_all(&table);
+		free_all(&table); // condicion para vaciar philo[n] si es null que no lo haga
 		return (12);
 	}
 	running(&table);
-	printf("PASS TABLE\n");
 	join_philos(&table);
-	printf("now end %lld\n", time_now());
-	printf("execution %lld\n", get_time(&table));
 	free_all(&table);
 	return (0);
 }
