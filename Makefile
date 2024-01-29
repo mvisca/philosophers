@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/09 17:22:41 by mvisca            #+#    #+#              #
-#    Updated: 2024/01/29 15:37:10 by mvisca           ###   ########.fr        #
+#    Updated: 2024/01/29 17:43:08 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,7 @@ H_FLAGS			:= -I.
 all: $(NAME)
 
 $(NAME): 
-	@$(CC) $(CC_FLAGS) -g -fsanitize=address $(H_FLAGS) $(SRCS) -o $(NAME)
+	@$(CC) $(CC_FLAGS) -g -fsanitize=thread $(H_FLAGS) $(SRCS) -o $(NAME)
 	@echo "$(BLUE)Building $(RED)$(NAME)"
 
 clean:

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:32 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/29 15:23:34 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/29 18:18:24 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,26 +36,26 @@ void	running(t_table *t)
 	int	i;
 
 	pthread_mutex_lock(&t->mtx_end);
-	printf("Hungry %d \n", (getint(t, COUNT_HUNGRY, 0)));
-	printf("Dead %d \n", (getint(t, COUNT_DEAD, 0)));
-	printf("Valor %s \n", (getint(t, COUNT_HUNGRY, 0) != 0 && getint(t, COUNT_DEAD, 0) == 0) ? "true" : "false");
-	while ( getint(t, COUNT_HUNGRY, 0) != 0 \
-	&& getint(t, COUNT_DEAD, 0) == 0)
+	// printf("Hungry %d \n", (getint(t, COUNT_HUNGRY, 0)));
+	// printf("Dead %d \n", (getint(t, COUNT_DEAD, 0)));
+	// printf("Valor %s \n", (getint(t, COUNT_HUNGRY, 0) != 0 && getint(t, COUNT_DEAD, 0) == 0) ? "true" : "false");
+	while (pt_hungry(t))
 	{
 		i = 0;
 		while (i < getint(t, COUNT_CHAIRS, 0))
 		{
-			if (time_now(t) - t->philos[i].last_meal >= getint(t, TIME_DIE, 0))
+			if (p_dead(&t->philos[i], t))
 			{
-				pthread_mutex_lock(&t->mtx_dead);
-				philo_die(&t->philos[i]); // DEAD == 1
-				pthread_mutex_unlock(&t->mtx_dead);
+				// pthread_mutex_lock(&t->mtx_dead);
+				// philo_die(&t->philos[i]);
+				// pthread_mutex_unlock(&t->mtx_dead);
 				break ;
 			}
 			i++;
 		}
+		if (pt_dead(t))
+			break ;
 	}
-	ft_usleep(getint(t, TIME_DIE, 0), t);
 	pthread_mutex_unlock(&t->mtx_end);
 }
 
@@ -95,7 +95,16 @@ int	main(int ac, char **av)
 	}
 //	print_data(&table);
 	running(&table);
-	printf("Exit running() go to join()\n");
+
+	// int x = 0;
+	// while (x < table.philos_n)
+	// {
+	// 	printf("\tphilo %d meals %d\n", x + 1, table.philos[x].meals_count);
+	// 	x++;
+	// }
+	// printf("table hungry %d\n", table.hungry_count);
+	// printf("table dead %d\n", table.dead_count);
+
 	join_philos(&table);
 	free_all(&table);
 	return (0);

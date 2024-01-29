@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:34:44 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/29 15:46:39 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/29 17:17:43 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 
 int	p_dead(t_philo *p, t_table *t)
 {
-	int	age;
+	long long	waiting;
 
-	age = (int) (getlong(t, NOW, 0) - getlong(t, P_LAST_MEAL, p->chair));
-	if (age >= getint(t, TIME_DIE, 0))
+	waiting = (getlong(t, NOW, 0) - getlong(t, P_LAST_MEAL, p->chair));
+	if (p_hungry(p, t) && waiting >= (long long) getint(t, TIME_DIE, 0))
+	{
+		philo_die(p);
 		return (1);
+	}
 	return (0);
 }
 
@@ -31,14 +34,14 @@ int p_hungry(t_philo *p, t_table *t)
 
 int pt_dead(t_table *t)
 {
-	if (t->dead_count != 0)
+	if (getint(t, COUNT_DEAD, 0) != 0)
 		return (1);
 	return (0);
 }
 
 int pt_hungry(t_table *t)
 {
-	if (t->hungry_count < 0)
+	if (getint(t, COUNT_HUNGRY, 0) > 0)
 		return (1);
 	return (0);
 }

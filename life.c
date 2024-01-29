@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:25 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/29 08:55:41 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/29 18:15:04 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,13 @@ static int	philo_sleep(t_philo *philo)
 {
 		print_sleep(philo);
 		ft_usleep(getint(philo->t, TIME_SLEEP, 0), philo->t);
-		print_think(philo);
 	return (0);
 }
 
 static int	take_forks(t_philo *philo)
 {
-	if (getint(philo->t, COUNT_CHAIRS, 0) == 1)
-		return (1);
 	if (philo->chair % 2 == 0)
 	{
-		ft_usleep(100, philo->t);
 		pthread_mutex_lock(&philo->fork_l);
 		print_fork(philo);
 		pthread_mutex_lock(philo->fork_r);
@@ -40,16 +36,10 @@ static int	take_forks(t_philo *philo)
 	return (0);
 }
 
-static int	philo_eat(t_philo *philo, t_table *t, int i)
+static int	philo_eat(t_philo *philo)
 {
-	if (getint(t, P_MEAL_COUNT, i) >= getint(t, MAX_MEALS, 0))
-	{
-		update_last_meal(philo);
-		return (1);
-	}
 	update_last_meal(philo);
 	print_eat(philo);
-	philo->meals_count += 1;
 	ft_usleep(getint(philo->t, TIME_EAT, 0), philo->t);
 	pthread_mutex_unlock(philo->fork_r);
 	pthread_mutex_unlock(&philo->fork_l);
@@ -65,11 +55,14 @@ static int	philo_eat(t_philo *philo, t_table *t, int i)
 
 int	philo_die(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->t->mtx_dead);
-	philo->t->dead_count += 1;
-	pthread_mutex_unlock(&philo->t->mtx_dead);
-	ft_usleep(200, philo->t);
-	print_die(philo);
+	if (!pt_dead(philo->t))
+	{
+		pthread_mutex_lock(&philo->t->mtx_dead);
+		philo->t->dead_count += 1;
+		pthread_mutex_unlock(&philo->t->mtx_dead);	
+		ft_usleep(200, philo->t);
+		print_die(philo);
+	}
 	return (getint(philo->t, COUNT_DEAD, 0));
 }
 
@@ -80,28 +73,28 @@ void	*philo_life(void *arg)
 
 	philo = (t_philo *)arg;
 	t = philo->t;
-	while (getint(t, COUNT_HUNGRY, 0) && !getint(t, COUNT_DEAD, 0))
+	if (getint(t, COUNT_CHAIRS, 0) == 1)
 	{
-		printf("OUT condition %s\n", (getint(t, P_MEAL_COUNT, philo->chair) < getint(t, MAX_MEALS, 0)) ? "TRUE" : "FALSE");
-		printf("OUT Meal Count get & struct %d y %d\n", (getint(t, P_MEAL_COUNT, philo->chair)), philo->meals_count);
-		printf("OUT MAx Meals %d\n", (getint(t, MAX_MEALS, 0)));
-
-		if (getint(t, P_MEAL_COUNT, philo->chair) < getint(t, MAX_MEALS, 0))
+		print_fork(philo);
+		ft_usleep(getint(philo->t, TIME_DIE, 0), philo->t);
+		philo_die(philo);
+	}
+	else
+	{
+		while (!pt_dead(t) && p_hungry(philo, t))
 		{
-			printf("OUT %d\n", philo->chair);
-			if (take_forks(philo) != 0)
+			take_forks(philo);
+			if (!p_dead(philo, t))
+				philo_eat(philo);
+			else
 			{
-				print_fork(philo);
-				ft_usleep(getint(philo->t, TIME_DIE, 0), philo->t);
-				philo_die(philo);
-				return (NULL);
+				pthread_mutex_unlock(philo->fork_r);
+				pthread_mutex_unlock(&philo->fork_l);
 			}
-			if (getint(t, COUNT_HUNGRY, 0) && !getint(t, COUNT_DEAD, 0) && \
-			getint(t, P_MEAL_COUNT, philo->chair) < getint(t, MAX_MEALS, 0))
-				philo_eat(philo, philo->t, philo->chair);
-			if (getint(t, COUNT_HUNGRY, 0) && !getint(t, COUNT_DEAD, 0) && \
-			getint(t, P_MEAL_COUNT, philo->chair) < getint(t, MAX_MEALS, 0))
+			if (!p_dead(philo, t) && p_hungry(philo, t))
 				philo_sleep(philo);
+			if (!p_dead(philo, t) && p_hungry(philo, t))
+				print_think(philo);
 		}
 	}
 	pthread_mutex_lock(&t->mtx_end);

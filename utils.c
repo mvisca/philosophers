@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:59 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/28 20:54:21 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/29 18:19:02 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,35 @@ int	ft_atoi(char *str)
 	return (result);
 }
 
+// static void	free_mutexes(t_table *table)
+// {
+// 	int	n;
+	
+// 	n = 0;
+// 	while (table->philos && n < getint(table, COUNT_CHAIRS, 0))
+// 		pthread_mutex_unlock(&table->philos[n++].fork_l);
+// 	pthread_mutex_unlock(&table->mtx_chairs);
+// 	pthread_mutex_unlock(&table->mtx_dead);
+// 	pthread_mutex_unlock(&table->mtx_hungry);
+// 	pthread_mutex_unlock(&table->mtx_end);
+// 	pthread_mutex_unlock(&table->mtx_philo_meal);
+// 	pthread_mutex_unlock(&table->mtx_die);
+// 	pthread_mutex_unlock(&table->mtx_eat);
+// 	pthread_mutex_unlock(&table->mtx_sleep);
+// 	pthread_mutex_unlock(&table->mtx_meals);
+// 	pthread_mutex_unlock(&table->mtx_now);
+// 	pthread_mutex_unlock(&table->mtx_start);
+// 	pthread_mutex_unlock(&table->mtx_print);
+// }
+
 int	free_all(t_table *table)
 {
 	int	n;
 	
+	n = 0;
+	while (table->philos && n < getint(table, COUNT_CHAIRS, 0))
+		pthread_mutex_destroy(&table->philos[n++].fork_l);
+	// free_mutexes(table);
 	pthread_mutex_destroy(&table->mtx_chairs);
 	pthread_mutex_destroy(&table->mtx_dead);
 	pthread_mutex_destroy(&table->mtx_hungry);
@@ -42,13 +67,11 @@ int	free_all(t_table *table)
 	pthread_mutex_destroy(&table->mtx_philo_meal);
 	pthread_mutex_destroy(&table->mtx_die);
 	pthread_mutex_destroy(&table->mtx_eat);
-	pthread_mutex_destroy(&table->mtx_meals);
-	pthread_mutex_destroy(&table->mtx_start);
 	pthread_mutex_destroy(&table->mtx_sleep);
+	pthread_mutex_destroy(&table->mtx_meals);
+	pthread_mutex_destroy(&table->mtx_now);
+	pthread_mutex_destroy(&table->mtx_start);
 	pthread_mutex_destroy(&table->mtx_print);
-	n = 0;
-	while (table->philos && n < getint(table, COUNT_CHAIRS, 0))
-		pthread_mutex_destroy(&table->philos[n++].fork_l);
 	free(table->philos);
 	return (0);
 }
