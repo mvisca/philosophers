@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:49 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/27 14:55:44 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/29 15:29:33 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@
 # define TIME_SLEEP		7
 # define MAX_MEALS		8
 # define START			9
+# define NOW			10
 
 // custom type to protect mutex @ init_table()  
 typedef struct s_ints
@@ -120,8 +121,6 @@ int					init_philos(t_table *table);
 int					philo_die(t_philo *philo);
 void				*philo_life(void *arg);
 
-// actions.c
-
 // error.c
 int					print_argserror(void); // in file
 int					print_charerror(void); // in file
@@ -136,8 +135,11 @@ int					print_sleep(t_philo *philo);
 int					print_think(t_philo *philo);
 int					print_die(t_philo *philo);
 
-// getters.c
-long long			get_safe(t_table *t, int op, int chair);
+// getters_int.c
+int					getint(t_table *t, int op, int chair);
+
+// getters_long.c
+long long			getlong(t_table *t, int op, int chair);
 
 // utils.c
 int					ft_atoi(char *str);
@@ -147,5 +149,6 @@ int					ft_usleep(int hold, t_table *t);
 // utils_time.c
 long long			get_time(t_table *t);
 long long			time_now(t_table *t);
+void				update_last_meal(t_philo *philo);
 
 #endif

@@ -17,7 +17,7 @@ static int	ft_atoi(char *str)
 	}
 	if (result < INT_MIN || result > INT_MAX)
 		return (-1);
-	return ((int) result);
+	return (result);
 }
 
 static int	prev_n(int total, int n)

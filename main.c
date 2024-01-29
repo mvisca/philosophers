@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:32 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/27 14:58:34 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/29 15:23:34 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	join_philos(t_table *table)
 	int	n;
 
 	n = 0;
-	while (n < (int) get_safe(table, COUNT_CHAIRS, 0))
+	while (n < getint(table, COUNT_CHAIRS, 0))
 	{
 		if (pthread_join(table->philos[n].philo_thread, NULL) != 0)
 		{
@@ -35,15 +35,17 @@ void	running(t_table *t)
 {
 	int	i;
 
-	printf("activa running\n");
 	pthread_mutex_lock(&t->mtx_end);
-	while ((int) get_safe(t, COUNT_HUNGRY, 0) != 0 \
-	&& get_safe(t, COUNT_DEAD, 0) == 0)
+	printf("Hungry %d \n", (getint(t, COUNT_HUNGRY, 0)));
+	printf("Dead %d \n", (getint(t, COUNT_DEAD, 0)));
+	printf("Valor %s \n", (getint(t, COUNT_HUNGRY, 0) != 0 && getint(t, COUNT_DEAD, 0) == 0) ? "true" : "false");
+	while ( getint(t, COUNT_HUNGRY, 0) != 0 \
+	&& getint(t, COUNT_DEAD, 0) == 0)
 	{
 		i = 0;
-		while (i < (int) get_safe(t, COUNT_CHAIRS, 0))
+		while (i < getint(t, COUNT_CHAIRS, 0))
 		{
-			if (time_now(t) - t->philos[i].last_meal > (int) get_safe(t, TIME_DIE, 0))
+			if (time_now(t) - t->philos[i].last_meal >= getint(t, TIME_DIE, 0))
 			{
 				pthread_mutex_lock(&t->mtx_dead);
 				philo_die(&t->philos[i]); // DEAD == 1
@@ -53,12 +55,32 @@ void	running(t_table *t)
 			i++;
 		}
 	}
-	printf("saliendo de running\n");
-
-	ft_usleep((int) get_safe(t, TIME_DIE, 0), t);
+	ft_usleep(getint(t, TIME_DIE, 0), t);
 	pthread_mutex_unlock(&t->mtx_end);
 }
 
+// static void	print_data(t_table *t)
+// {
+// 	printf("t->dead_count %d\n", t->dead_count);
+// 	printf("t->hungry_count %d\n", t->hungry_count);
+// 	printf("t->max_meals %d\n", t->max_meals);
+// 	printf("t->die_time %d\n", t->die_time);
+// 	printf("t->eat_time %d\n", t->eat_time);
+// 	printf("t->sleep_time %d\n", t->sleep_time);
+// 	printf("t->start_time %lld\n", t->start_time);
+// 	printf("t->philos_n %d\n", t->philos_n);
+// 	int i = 0;
+// 	while (i < t->philos_n)
+// 	{
+// 		printf("\nphilos[%d].fork_r\n", t->philos[i].chair);	
+// 		printf("philos[n].fork_l %p\n", &t->philos[i].fork_l);
+// 		printf("philos[n].fork_r %p\n", t->philos[i].fork_r);
+// 		printf("philos[n].last_meal %lld\n", t->philos[i].last_meal);
+// 		printf("philos[n].meals_count %d\n", t->philos[i].meals_count);
+// 		printf("philos[n].philo_thread %p\n", &t->philos[i].philo_thread);
+// 		i++;
+// 	}
+// }
 
 int	main(int ac, char **av)
 {
@@ -71,13 +93,10 @@ int	main(int ac, char **av)
 		free_all(&table); // condicion para vaciar philo[n] si es null que no lo haga
 		return (12);
 	}
+//	print_data(&table);
 	running(&table);
+	printf("Exit running() go to join()\n");
 	join_philos(&table);
 	free_all(&table);
 	return (0);
 }
-
-	// pthread_mutex_lock(&table.mtx_time);
-	// table.start_time = time_now();
-	// pthread_mutex_unlock(&table.mtx_time);
-	// printf("IN1\n");

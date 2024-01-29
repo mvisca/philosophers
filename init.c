@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:21:51 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/27 16:37:13 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/29 15:30:11 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	init_table(int ac, char **av, t_table *table)
 	table->hungry_count = table->philos_n;
 	if (init_mutex(table) != 0)
 		return (printf("error init mutexes"));
-	table->philos = (t_philo *) malloc (sizeof(t_philo) * ft_atoi(av[1]) + 1);
+	table->philos = (t_philo *) malloc (sizeof(t_philo) * ft_atoi(av[1]));
 	if (!table->philos)
 		return (printf("malloc error init philo\n"));
 	return (0);
@@ -55,12 +55,10 @@ int	init_table(int ac, char **av, t_table *table)
 
 static int	prev_n(t_table *table, int n)
 {
-		int	prev;
-		int	philos_n;
+	int	pn;
 
-		philos_n = table->philos_n;
-		prev = philos_n - (((philos_n - n) + 1) % philos_n);
-		return (prev);	
+	pn = table->philos_n;
+	return ((n + pn - 1) % pn);
 }
 
 int	init_philos(t_table *table)
@@ -69,25 +67,24 @@ int	init_philos(t_table *table)
 	t_philo	*philo;
 
 	n = 0;
-	while (n < (int) get_safe(table, COUNT_CHAIRS, 0))
+	while (n < getint(table, COUNT_CHAIRS, 0))
 	{
 		if (pthread_mutex_init(&table->philos[n].fork_l, NULL) != 0)
 			return (printf("Error creando mutex"));
 		n++;
 	}
 	n = 0;
-	while (n < (int) get_safe(table, COUNT_CHAIRS, 0))
+	while (n < getint(table, COUNT_CHAIRS, 0))
 	{
 		philo = &table->philos[n];
 		philo->t = table;
 		philo->chair = n + 1;
 		philo->meals_count = 0;
-		philo->last_meal = get_safe(table, START, 0);
+		philo->last_meal = getlong(table, START, 0);
 		philo->fork_r = &table->philos[prev_n(table, n)].fork_l;
 		if (pthread_create(&philo->philo_thread, NULL, philo_life, philo) != 0)
 			return (printf("error al crear hilos en inti philos\n"));
 		n++;
-		printf("Initing philos %d\n", n);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:59 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/27 14:57:49 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/28 20:54:21 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_atoi(char *str)
 	}
 	if (result < INT_MIN || result > INT_MAX)
 		return (-1);
-	return ((int) result);
+	return (result);
 }
 
 int	free_all(t_table *table)
@@ -47,7 +47,7 @@ int	free_all(t_table *table)
 	pthread_mutex_destroy(&table->mtx_sleep);
 	pthread_mutex_destroy(&table->mtx_print);
 	n = 0;
-	while (table->philos && n < get_safe(table, COUNT_CHAIRS, 0))
+	while (table->philos && n < getint(table, COUNT_CHAIRS, 0))
 		pthread_mutex_destroy(&table->philos[n++].fork_l);
 	free(table->philos);
 	return (0);
