@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:25 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/29 18:15:04 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/30 00:37:05 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	philo_eat(t_philo *philo)
 	ft_usleep(getint(philo->t, TIME_EAT, 0), philo->t);
 	pthread_mutex_unlock(philo->fork_r);
 	pthread_mutex_unlock(&philo->fork_l);
-	if (philo->meals_count >= getint(philo->t, MAX_MEALS, 0))
+	if (p_hungry(philo, philo->t))
 	{
 		pthread_mutex_lock(&philo->t->mtx_hungry);
 		philo->t->hungry_count -= 1;

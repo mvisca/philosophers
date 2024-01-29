@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:32 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/29 18:18:24 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/30 00:37:59 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static int	join_philos(t_table *table)
 			free_all(table);
 			return (1);
 		}
-		printf("hilo recogido %d\n", n);
 		n++;
 	}
 	return (0);
