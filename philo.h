@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:49 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/29 15:29:33 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/29 15:38:29 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,13 +121,6 @@ int					init_philos(t_table *table);
 int					philo_die(t_philo *philo);
 void				*philo_life(void *arg);
 
-// error.c
-int					print_argserror(void); // in file
-int					print_charerror(void); // in file
-int					print_mallocerror(void); // in filie
-int					print_mutexinierror(void); // in file
-int					print_maxerror(void); // in file
-
 // print.c
 int					print_fork(t_philo *philo);
 int					print_eat(t_philo *philo);
@@ -135,11 +128,24 @@ int					print_sleep(t_philo *philo);
 int					print_think(t_philo *philo);
 int					print_die(t_philo *philo);
 
+// error.c
+int					print_argserror(void);
+int					print_charerror(void);
+int					print_mallocerror(void);
+int					print_mutexinierror(void);
+int					print_maxerror(void);
+
 // getters_int.c
 int					getint(t_table *t, int op, int chair);
 
 // getters_long.c
 long long			getlong(t_table *t, int op, int chair);
+
+// conditions.c
+int p_dead(t_philo *p, t_table *t);
+int p_hungry(t_philo *p, t_table *t);
+int pt_dead(t_table *t);
+int pt_hungry(t_table *t);
 
 // utils.c
 int					ft_atoi(char *str);

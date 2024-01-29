@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/09 17:22:41 by mvisca            #+#    #+#              #
-#    Updated: 2024/01/28 20:19:54 by mvisca           ###   ########.fr        #
+#    Updated: 2024/01/29 15:37:10 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,8 @@ NAME			:= philo
 #	SRC					#
 #-----------------------#
 
-SRCS			:=	getters_int.c	\
+SRCS			:=	conditions.c	\
+					getters_int.c	\
 					getters_long.c	\
 					init.c			\
 					init_error.c	\
