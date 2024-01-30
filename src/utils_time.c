@@ -6,7 +6,7 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:54:17 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/30 17:02:36 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/01/30 18:53:53 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_usleep(int hold, t_table *t)
 	{
 		if (getlong(t, NOW, 0) - starting_time >= hold)
 			break ;
-		usleep(500);
+		usleep(100);
 	}
 	return (0);
 }

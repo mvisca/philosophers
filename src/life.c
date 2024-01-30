@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   life.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:25 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/30 16:09:23 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/01/30 18:17:02 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	philo_eat(t_philo *philo)
 	ft_usleep(getint(philo->t, TIME_EAT, 0), philo->t);
 	pthread_mutex_unlock(philo->fork_r);
 	pthread_mutex_unlock(&philo->fork_l);
-	if (p_hungry(philo, philo->t))
+	if (!p_hungry(philo, philo->t))
 	{
 		pthread_mutex_lock(&philo->t->mtx_hungry);
 		philo->t->hungry_count -= 1;

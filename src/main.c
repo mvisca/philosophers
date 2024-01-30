@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:32 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/30 16:13:38 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/01/30 18:21:18 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	join_philos(t_table *table)
 	{
 		if (pthread_join(table->philos[n].philo_thread, NULL) != 0)
 		{
-			printf("Error in pthread_join at index %d\n", n);
+			write(2, "Error: in pthread_join", 22);
 			free_all(table);
 			return (1);
 		}
