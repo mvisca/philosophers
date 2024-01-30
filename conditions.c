@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:34:44 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/30 00:56:59 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/30 01:15:42 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	p_dead(t_philo *p, t_table *t)
 	long long	waiting;
 
 	waiting = (getlong(t, NOW, 0) - getlong(t, P_LAST_MEAL, p->chair));
-	if (p_hungry(p, t) && waiting > (long long) getint(t, TIME_DIE, 0))
+	if (p_hungry(p, t) && waiting >= (long long) getint(t, TIME_DIE, 0))
 	{
 		philo_die(p);
 		return (1);
