@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:49 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/29 17:01:58 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/30 16:19:00 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,10 +142,10 @@ int					getint(t_table *t, int op, int chair);
 long long			getlong(t_table *t, int op, int chair);
 
 // conditions.c
-int 				p_dead(t_philo *p, t_table *t);
-int 				p_hungry(t_philo *p, t_table *t);
-int 				pt_dead(t_table *t);
-int 				pt_hungry(t_table *t);
+int					p_dead(t_philo *p, t_table *t);
+int					p_hungry(t_philo *p, t_table *t);
+int					pt_dead(t_table *t);
+int					pt_hungry(t_table *t);
 
 // utils.c
 int					ft_atoi(char *str);
@@ -154,7 +154,7 @@ int					ft_usleep(int hold, t_table *t);
 
 // utils_time.c
 long long			get_time(t_table *t);
-long long			time_now(t_table *t);
+long long			time_now(void);
 void				update_last_meal(t_philo *philo);
 
 #endif

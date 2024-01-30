@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:21:38 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/24 18:40:16 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/30 15:50:54 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,33 @@
 
 int	print_argserror(void)
 {
-	printf("Wrong number of arguments. Instead use:\n");
-	printf("./philo [n_philos] [t_die] [t_eat] [t_sleep] [n_meals*]\n");
-	printf("*Optional.\n");
+	write(2, "Wrong number of arguments. Instead use:\n", 40);
+	write(2, "./philo [n_philos] [t_die] [t_eat] [t_sleep] [n_meals*]\n", 56);
+	write(2, "*Optional\n", 10);
 	return (1);
 }
 
 int	print_charerror(void)
 {
-	printf("Wrong set of chars. Use only digits.\n");
+	write(2, "Wrong set of chars. Use only digits\n", 36);
 	return (1);
 }
 
 int	print_mallocerror(void)
 {
-	printf("Ups! Error while allocating memory.\n");
+	write(2, "Error while allocating memory\n", 30);
 	return (1);
 }
 
 int	print_mutexinierror(void)
 {
-	printf("Ups! Error while initializing mutex\n");
+	write(2, "Error while initializing mutex\n", 31);
 	return (1);
 }
 
 int	print_maxerror(void)
 {
-	printf("Number of philos: max = 200, min = 1.\nNumber of meals: min = 1.\n");
+	write(2, "Number of philos: max = 200, min = 1\n", 37);
+	write(2, "Number of meals: min = 1\n", 25);
 	return (1);
 }

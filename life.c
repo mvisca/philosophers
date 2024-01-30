@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:25 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/30 01:12:38 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/30 16:09:23 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static int	philo_sleep(t_philo *philo)
 {
-		print_sleep(philo);
-		ft_usleep(getint(philo->t, TIME_SLEEP, 0), philo->t);
+	print_sleep(philo);
+	ft_usleep(getint(philo->t, TIME_SLEEP, 0), philo->t);
 	return (0);
 }
 
@@ -81,9 +81,7 @@ void	*philo_life(void *arg)
 	while (!pt_dead(philo->t) && p_hungry(philo, philo->t))
 	{
 		take_forks(philo);
-	//	if (!p_dead(philo, t))
-			philo_eat(philo);
-	//	else
+		philo_eat(philo);
 		if (p_dead(philo, philo->t) && pthread_mutex_unlock(philo->fork_r))
 			pthread_mutex_unlock(&philo->fork_l);
 		if (!p_dead(philo, philo->t) && p_hungry(philo, philo->t))

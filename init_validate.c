@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:23:04 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/26 19:28:31 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/30 16:05:05 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 int	validate_args(int ac, char **av)
 {
 	if (ac < 5 || ac > 6)
-		return (printf("error en validate: ac = %d <###> need 5 or 6\n", ac));
+		return (write(2, "Error: argc must be 5 or 6\n", 27));
 	if (validate_chars(av))
 		return (21);
 	if (ft_atoi(av[11]) > 200 || ft_atoi(av[1]) < 1)
-		return (printf("error: min 1, max 200\n"));
+		return (write(2, "Error: min 1, max 200\n", 22));
 	if (ac == 6 && ft_atoi(av[5]) == 0)
-		return (printf("error en el número de comidas, es cero\n"));
+		return (write(2, "Error: meals number is 0\n", 25));
 	return (0);
 }
 
@@ -33,18 +33,18 @@ int	validate_chars(char **str)
 	i = 1;
 	j = 0;
 	if (!str || !str[i] || !str[i][j])
-		return (printf("error validando chars - no string\n"));
+		return (write(2, "Error: invalid chars or empty string\n", 37));
 	while (str[i])
 	{
 		j = 0;
 		if (!str[i][j])
-			return (printf("error empty string\n"));
+			return (write(2, "Error: empty string\n", 20));
 		while ((str[i][j] >= 9 && str[i][j] <= 13) || str[i][j] == 32)
 			j++;
 		while (str[i][j])
 		{
 			if ((str[i][j] < '0' || str[i][j] > '9') || !str[i][0])
-				return (printf("error validando chars - char no valido, incluidos espacios después del argumento\n"));
+				return (write(2, "Error: char no valido en argv\n", 31));
 			j++;
 		}
 		i++;

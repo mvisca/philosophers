@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 12:57:51 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/29 17:57:34 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/30 15:53:15 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static long long	getint2(t_table *t, int op, int chair)
 {
 	long long	count;
-	
+
 	if (op == MAX_MEALS)
 	{
 		pthread_mutex_lock(&t->mtx_meals);

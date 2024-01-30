@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 20:20:08 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/29 15:26:19 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/30 16:19:46 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ long long	getlong(t_table *t, int op, int chair)
 	if (op == NOW)
 	{
 		pthread_mutex_lock(&t->mtx_now);
-		count = time_now(t);
+		count = time_now();
 		pthread_mutex_unlock(&t->mtx_now);
 	}
 	else if (op == START)

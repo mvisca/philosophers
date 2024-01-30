@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:59 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/30 00:07:37 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/30 16:16:12 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,10 @@ int	ft_atoi(char *str)
 int	free_all(t_table *table)
 {
 	int	n;
-	
+
 	n = 0;
 	while (table->philos && n < getint(table, COUNT_CHAIRS, 0))
 		pthread_mutex_destroy(&table->philos[n++].fork_l);
-	// free_mutexes(table);
 	pthread_mutex_destroy(&table->mtx_chairs);
 	pthread_mutex_destroy(&table->mtx_dead);
 	pthread_mutex_destroy(&table->mtx_hungry);

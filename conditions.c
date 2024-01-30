@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:34:44 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/30 01:15:42 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/30 15:52:25 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,21 @@ int	p_dead(t_philo *p, t_table *t)
 	return (0);
 }
 
-int p_hungry(t_philo *p, t_table *t)
+int	p_hungry(t_philo *p, t_table *t)
 {
 	if (getint(t, P_MEAL_COUNT, p->chair) < getint(t, MAX_MEALS, 0))
 		return (1);
 	return (0);
 }
 
-int pt_dead(t_table *t)
+int	pt_dead(t_table *t)
 {
 	if (getint(t, COUNT_DEAD, 0) != 0)
 		return (1);
 	return (0);
 }
 
-int pt_hungry(t_table *t)
+int	pt_hungry(t_table *t)
 {
 	if (getint(t, COUNT_HUNGRY, 0) > 0)
 		return (1);

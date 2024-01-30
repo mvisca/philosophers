@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:21:51 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/29 15:30:11 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/30 16:22:00 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static int	init_mutex(t_table *table)
 	i.nw = pthread_mutex_init(&table->mtx_now, NULL);
 	i.pr = pthread_mutex_init(&table->mtx_start, NULL);
 	i.tsl = pthread_mutex_init(&table->mtx_print, NULL);
-	if (i.cch || i.cde || i.chu || i.end || i.pm || i.tdi || i.tea || i.tsl || i.mxm || i.str || i.pr)
+	if (i.cch || i.cde || i.chu || i.end || i.pm || i.tdi || i.tea || i.tsl \
+			|| i.mxm || i.str || i.pr)
 		return (1);
 	return (0);
 }
@@ -42,7 +43,7 @@ int	init_table(int ac, char **av, t_table *table)
 	table->max_meals = INT_MAX;
 	if (ac == 6)
 		table->max_meals = ft_atoi(av[5]);
-	table->start_time = time_now(table);
+	table->start_time = time_now();
 	table->dead_count = 0;
 	table->hungry_count = table->philos_n;
 	if (init_mutex(table) != 0)
