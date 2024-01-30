@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_time.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:54:17 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/30 16:22:32 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/01/30 17:02:36 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_usleep(int hold, t_table *t)
 	{
 		if (getlong(t, NOW, 0) - starting_time >= hold)
 			break ;
-		usleep(1000);
+		usleep(500);
 	}
 	return (0);
 }
