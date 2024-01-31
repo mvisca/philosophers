@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:32 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/30 18:21:18 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/01/31 21:35:05 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,20 @@ static int	join_philos(t_table *table)
 void	running(t_table *t)
 {
 	int	i;
+	int	chairs;
 
 	pthread_mutex_lock(&t->mtx_end);
+	chairs = getint(t, COUNT_CHAIRS, 0);
 	while (pt_hungry(t))
 	{
 		i = 0;
-		while (i < getint(t, COUNT_CHAIRS, 0))
+		while (i < chairs)
 		{
 			if (p_dead(&t->philos[i], t))
+			{
+				philo_die(&t->philos[i]);
 				break ;
+			}
 			i++;
 		}
 		if (pt_dead(t))

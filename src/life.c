@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   life.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:25 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/30 18:17:02 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/01/31 21:24:43 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,5 @@ void	*philo_life(void *arg)
 		if (!p_dead(philo, philo->t) && p_hungry(philo, philo->t))
 			print_think(philo);
 	}
-	pthread_mutex_lock(&philo->t->mtx_end);
-	pthread_mutex_unlock(&philo->t->mtx_end);
 	return (NULL);
 }
