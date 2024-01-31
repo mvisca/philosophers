@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:25 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/31 21:24:43 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/31 21:37:36 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ static int	take_forks(t_philo *philo)
 {
 	if (philo->chair % 2 == 0)
 	{
-		pthread_mutex_lock(&philo->fork_l);
-		print_fork(philo);
 		pthread_mutex_lock(philo->fork_r);
+		print_fork(philo);
+		pthread_mutex_lock(&philo->fork_l);
 		print_fork(philo);
 		return (0);
 	}
-	pthread_mutex_lock(philo->fork_r);
-	print_fork(philo);
 	pthread_mutex_lock(&philo->fork_l);
+	print_fork(philo);
+	pthread_mutex_lock(philo->fork_r);
 	print_fork(philo);
 	return (0);
 }
