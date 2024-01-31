@@ -6,32 +6,31 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:25 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/31 21:37:36 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/01/31 21:46:25 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-static int	philo_sleep(t_philo *philo)
-{
-	print_sleep(philo);
-	ft_usleep(getint(philo->t, TIME_SLEEP, 0), philo->t);
-	return (0);
-}
 
 static int	take_forks(t_philo *philo)
 {
-	if (philo->chair % 2 == 0)
+	pthread_mutex_t	*f1;
+	pthread_mutex_t	*f2;
+
+	if (philo->chair % 2 != 0)
 	{
-		pthread_mutex_lock(philo->fork_r);
-		print_fork(philo);
-		pthread_mutex_lock(&philo->fork_l);
-		print_fork(philo);
-		return (0);
+		f1 = philo->fork_r;
+		f2 = &philo->fork_l;
 	}
-	pthread_mutex_lock(&philo->fork_l);
+	else
+	{
+		f1 = philo->fork_r;
+		f2 = &philo->fork_l;
+	}
+	pthread_mutex_lock(f1);
 	print_fork(philo);
-	pthread_mutex_lock(philo->fork_r);
+	pthread_mutex_lock(f2);
 	print_fork(philo);
 	return (0);
 }
@@ -50,6 +49,13 @@ static int	philo_eat(t_philo *philo)
 		pthread_mutex_unlock(&philo->t->mtx_hungry);
 		return (1);
 	}
+	return (0);
+}
+
+static int	philo_sleep(t_philo *philo)
+{
+	print_sleep(philo);
+	ft_usleep(getint(philo->t, TIME_SLEEP, 0), philo->t);
 	return (0);
 }
 
