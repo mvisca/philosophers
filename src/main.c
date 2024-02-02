@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:32 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/31 21:35:05 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/02 15:47:51 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	running(t_table *t)
 		{
 			if (p_dead(&t->philos[i], t))
 			{
-				philo_die(&t->philos[i]);
 				break ;
 			}
 			i++;

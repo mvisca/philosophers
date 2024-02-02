@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:21:51 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/30 16:22:00 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/02/02 16:36:40 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ int	init_table(int ac, char **av, t_table *table)
 	table->dead_count = 0;
 	table->hungry_count = table->philos_n;
 	if (init_mutex(table) != 0)
-		return (printf("error init mutexes"));
+		return (write(2, "Error: init mutexes\n", 20));
 	table->philos = (t_philo *) malloc (sizeof(t_philo) * ft_atoi(av[1]));
 	if (!table->philos)
-		return (printf("malloc error init philo\n"));
+		return (write(2, "Error: malloc error init philo\n", 31));
 	return (0);
 }
 

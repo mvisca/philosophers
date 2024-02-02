@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   conditions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:34:44 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/31 21:35:40 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/02 15:47:21 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ int	p_dead(t_philo *p, t_table *t)
 
 	waiting = (getlong(t, NOW, 0) - getlong(t, P_LAST_MEAL, p->chair));
 	if (p_hungry(p, t) && waiting >= (long long) getint(t, TIME_DIE, 0))
+	{
+		philo_die(p);
 		return (1);
+	}
 	return (0);
 }
 

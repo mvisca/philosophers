@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   life.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:25 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/31 21:49:50 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/02 16:37:29 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,20 @@
 
 static int	take_forks(t_philo *philo)
 {
-	pthread_mutex_t	*f1;
-	pthread_mutex_t	*f2;
-
-	if (philo->chair % 2 != 0)
+	if (philo->chair % 2 == 0)
 	{
-		f1 = philo->fork_r;
-		f2 = &philo->fork_l;
+		pthread_mutex_lock(&philo->fork_l);
+		print_fork(philo);
+		pthread_mutex_lock(philo->fork_r);
+		print_fork(philo);
 	}
 	else
 	{
-		f1 = philo->fork_r;
-		f2 = &philo->fork_l;
+		pthread_mutex_lock(philo->fork_r);
+		print_fork(philo);
+		pthread_mutex_lock(&philo->fork_l);
+		print_fork(philo);
 	}
-	pthread_mutex_lock(f1);
-	print_fork(philo);
-	pthread_mutex_lock(f2);
-	print_fork(philo);
 	return (0);
 }
 
@@ -38,7 +35,7 @@ static int	philo_eat(t_philo *philo)
 {
 	update_last_meal(philo);
 	print_eat(philo);
-	ft_usleep(getint(philo->t, TIME_EAT, 0), philo->t);
+	ft_sleep(getint(philo->t, TIME_EAT, 0), philo->t);
 	pthread_mutex_unlock(philo->fork_r);
 	pthread_mutex_unlock(&philo->fork_l);
 	if (!p_hungry(philo, philo->t))
@@ -54,7 +51,7 @@ static int	philo_eat(t_philo *philo)
 static int	philo_sleep(t_philo *philo)
 {
 	print_sleep(philo);
-	ft_usleep(getint(philo->t, TIME_SLEEP, 0), philo->t);
+	ft_sleep(getint(philo->t, TIME_SLEEP, 0), philo->t);
 	return (0);
 }
 
@@ -79,7 +76,7 @@ void	*philo_life(void *arg)
 	if (getint(philo->t, COUNT_CHAIRS, 0) == 1)
 	{
 		print_fork(philo);
-		ft_usleep(getint(philo->t, TIME_DIE, 0), philo->t);
+		ft_sleep(getint(philo->t, TIME_DIE, 0), philo->t);
 		philo_die(philo);
 		return (NULL);
 	}

@@ -6,7 +6,7 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:54:17 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/30 18:53:53 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/02/02 16:04:36 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,8 @@
 
 void	update_last_meal(t_philo *philo)
 {
-	long long	now;
-
-	pthread_mutex_lock(&philo->t->mtx_now);
-	now = time_now();
-	pthread_mutex_unlock(&philo->t->mtx_now);
 	pthread_mutex_lock(&philo->t->mtx_philo_meal);
-	philo->last_meal = now;
+	philo->last_meal = getlong(philo->t, NOW, 0);
 	philo->meals_count = philo->meals_count + 1;
 	pthread_mutex_unlock(&philo->t->mtx_philo_meal);
 }
@@ -41,7 +36,7 @@ long long	time_now(void)
 	return (total_time);
 }
 
-int	ft_usleep(int hold, t_table *t)
+int	ft_sleep(int hold, t_table *t)
 {
 	long long	starting_time;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:49 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/30 16:19:00 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/02/02 15:26:54 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ int					pt_hungry(t_table *t);
 // utils.c
 int					ft_atoi(char *str);
 int					free_all(t_table *table);
-int					ft_usleep(int hold, t_table *t);
+int					ft_sleep(int hold, t_table *t);
 
 // utils_time.c
 long long			get_time(t_table *t);
