@@ -1,16 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   getters_int.c                                      :+:      :+:    :+:   */
+/*   getters.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 12:57:51 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/30 15:53:15 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/02/02 20:01:28 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+long long	getlong(t_table *t, int op, int chair)
+{
+	long long	count;
+
+	if (op == NOW)
+	{
+		pthread_mutex_lock(&t->mtx_now);
+		count = time_now();
+		pthread_mutex_unlock(&t->mtx_now);
+	}
+	else if (op == START)
+	{
+		pthread_mutex_lock(&t->mtx_start);
+		count = t->start_time;
+		pthread_mutex_unlock(&t->mtx_start);
+	}
+	else if (op == P_LAST_MEAL)
+	{
+		pthread_mutex_lock(&t->mtx_philo_meal);
+		count = t->philos[chair - 1].last_meal;
+		pthread_mutex_unlock(&t->mtx_philo_meal);
+	}
+	else
+		return (write(2, "Argumento de getlong inválido\n", 30));
+	return (count);
+}
 
 static long long	getint2(t_table *t, int op, int chair)
 {

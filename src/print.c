@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:54 by mvisca            #+#    #+#             */
-/*   Updated: 2024/01/30 00:52:16 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/02 19:20:38 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,5 @@ int	print_die(t_philo *philo)
 	pthread_mutex_lock(&philo->t->mtx_print);
 	printf("%lld\t%d\tdied\n", get_time(philo->t), philo->chair);
 	pthread_mutex_unlock(&philo->t->mtx_print);
-	return (1);
+	return (0);
 }

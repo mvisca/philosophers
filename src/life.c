@@ -6,7 +6,7 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:25 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/02 16:42:26 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/02/02 20:06:33 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,23 @@
 static int	take_forks(t_philo *philo)
 {
 	if (philo->chair % 2 == 0)
-	{
-		pthread_mutex_lock(&philo->fork_l);
-		print_fork(philo);
-		pthread_mutex_lock(philo->fork_r);
-		print_fork(philo);
-	}
-	else
-	{
-		pthread_mutex_lock(philo->fork_r);
-		print_fork(philo);
-		pthread_mutex_lock(&philo->fork_l);
-		print_fork(philo);
-	}
+		ft_sleep(5, philo->t);
+	pthread_mutex_lock(philo->fork_r);
+	print_fork(philo);
+	pthread_mutex_lock(&philo->fork_l);
+	print_fork(philo);
 	return (0);
 }
 
 static int	philo_eat(t_philo *philo)
 {
-	update_last_meal(philo);
+	long long	now;
+
+	now = getlong(philo->t, NOW, 0);
+	philo->last_meal = now;
+	pthread_mutex_lock(&philo->t->mtx_philo_meal);
+	philo->meals_count = philo->meals_count + 1;
+	pthread_mutex_unlock(&philo->t->mtx_philo_meal);
 	print_eat(philo);
 	ft_sleep(getint(philo->t, TIME_EAT, 0), philo->t);
 	pthread_mutex_unlock(philo->fork_r);
@@ -63,7 +61,6 @@ int	philo_die(t_philo *philo)
 		philo->t->dead_count += 1;
 		pthread_mutex_unlock(&philo->t->mtx_dead);
 		print_die(philo);
-		return (1);
 	}
 	return (0);
 }
@@ -91,5 +88,7 @@ void	*philo_life(void *arg)
 		if (!p_dead(philo, philo->t) && p_hungry(philo, philo->t))
 			print_think(philo);
 	}
+	pthread_mutex_lock(&philo->t->mtx_end);
+	pthread_mutex_unlock(&philo->t->mtx_end);
 	return (NULL);
 }

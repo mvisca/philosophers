@@ -6,7 +6,7 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:49 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/02 15:26:54 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/02/02 19:19:28 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,10 +135,8 @@ int					print_mallocerror(void);
 int					print_mutexinierror(void);
 int					print_maxerror(void);
 
-// getters_int.c
+// getters.c
 int					getint(t_table *t, int op, int chair);
-
-// getters_long.c
 long long			getlong(t_table *t, int op, int chair);
 
 // conditions.c
@@ -151,10 +149,7 @@ int					pt_hungry(t_table *t);
 int					ft_atoi(char *str);
 int					free_all(t_table *table);
 int					ft_sleep(int hold, t_table *t);
-
-// utils_time.c
 long long			get_time(t_table *t);
 long long			time_now(void);
-void				update_last_meal(t_philo *philo);
 
 #endif

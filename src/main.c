@@ -6,7 +6,7 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 17:22:32 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/02 15:47:51 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/02/02 19:56:55 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,7 @@ void	running(t_table *t)
 		while (i < chairs)
 		{
 			if (p_dead(&t->philos[i], t))
-			{
 				break ;
-			}
 			i++;
 		}
 		if (pt_dead(t))

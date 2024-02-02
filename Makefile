@@ -6,7 +6,7 @@
 #    By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/09 17:22:41 by mvisca            #+#    #+#              #
-#    Updated: 2024/01/30 20:32:36 by mvisca-g         ###   ########.fr        #
+#    Updated: 2024/02/02 20:09:45 by mvisca-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,16 +43,14 @@ INCS_DIR		:=	inc/
 HEADER			:=	philo.h
 
 SRCS			:=	conditions.c	\
-					getters_int.c	\
-					getters_long.c	\
+					getters.c		\
 					init.c			\
 					init_error.c	\
 					init_validate.c	\
 					life.c			\
 					main.c			\
 					print.c			\
-					utils.c			\
-					utils_time.c
+					utils.c
 
 SRCS			:=	$(SRCS:%=$(SRCS_DIR)%)
 
@@ -70,7 +68,7 @@ C_FLAGS			:=	-Wall -Wextra -Werror -MMD -MP
 
 H_FLAGS			:=	$(addprefix -I,$(INCS_DIR))
 
-DEBUG_FLAGS		:=	-g -fsanitize=address
+DEBUG_FLAGS		:=	-g -fsanitize=thread
 
 RM				:=	rm -rf
 
@@ -86,7 +84,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@echo "$(BLUE)Building $(RED)$(NAME)"
-	@$(CC) $(C_FLAGS) $(H_FLAGS) $(SRCS) -o $(NAME) $(DEBUG_FLAGS)
+	@$(CC) $(C_FLAGS) $(H_FLAGS) $(SRCS) -o $(NAME)
 	@echo "$(GREEN)Linking $(NC)$(notdir $^) $(RED)-> $(NC)$(notdir $@)"
 	@echo "$(GREEN)✅ DONE!"
 	@$(RM) philo.d
